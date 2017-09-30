@@ -19,5 +19,5 @@
 		<option value="site">PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_CLIENT_SITE</option>
 		<option value="administrator">PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_CLIENT_ADMINISTRATOR</option>
 		<option value="both">PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_CLIENT_BOTH</option>
-	/>
+	</field>
 </form>
