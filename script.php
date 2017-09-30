@@ -6,12 +6,14 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
 
+ defined('_JEXEC') or die;
+
 /**
  * Installation class to perform additional changes during install/uninstall/update
  *
  * @since  1.0
  */
-class PlgSystemHttpHeaderScript extends JInstallerScript
+class PlgSystemHttpHeaderInstallerScript extends JInstallerScript
 {
 	/**
 	 * Extension script constructor.
