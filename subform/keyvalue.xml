@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<field
+		name="key"
+		type="text"
+		label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_KEY"
+	/>
+	<field
+		name="value"
+		type="text"
+		label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_VALUE"
+	/>
+</form>

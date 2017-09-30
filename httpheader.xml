@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="system" method="upgrade">
+	<name>plg_system_httpheader</name>
+	<creationDate>01.10.2017</creationDate>
+	<author>Tobias Zulauf</author>
+	<copyright>(C) 2017 Tobias Zulauf All rights reserved.</copyright>
+	<authorUrl>https://www.jah-tz.de</authorUrl>
+	<version>1.0.0</version>
+	<license>GNU/GPL Version 2 or later</license>
+	<description>PLG_SYSTEM_HTTPHEADER_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
+	<files>
+		<folder>language</folder>
+		<folder>subform</folder>
+		<filename plugin="httpheader">httpheader.php</filename>
+	</files>
+	<updateservers>
+		<server type="extension" name="HttpHeader Update Site">https://raw.githubusercontent.com/zero-24/plg_system_httpheader/master/update.xml</server>
+	</updateservers>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="xframeoptions"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS"
+					description="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="xxssprotection"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION"
+					description="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="xcontenttypeoptions"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS"
+					description="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="referrerpolicy"
+					type="list"
+					default="no-referrer-when-downgrade"
+					label="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY"
+					description="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_DESC"
+					>
+					<option value="">PLG_SYSTEM_HTTPHEADER_EMPTY_STRING</option>
+					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_NO_REFERRER</option>
+					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADER_NO_REFERRER_WHEN_DOWNGRADE</option>
+					<option value="same-origin">PLG_SYSTEM_HTTPHEADER_SAME_ORIGIN</option>
+					<option value="origin">PLG_SYSTEM_HTTPHEADER_ORIGIN</option>
+					<option value="strict-origin">PLG_SYSTEM_HTTPHEADER_STRICT_ORIGIN</option>
+					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_ORIGIN_WHEN_CROSS_ORIGIN</option>
+					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
+					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_UNSAFE_URL</option>
+				</field>
+				<field
+					name="additional_httpheader"
+					type="subform"
+					formsource="plugins/system/httpheader/subform/keyvalue.xml"
+					multiple="true"
+					label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER"
+					description="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
