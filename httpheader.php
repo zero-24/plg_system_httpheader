@@ -66,7 +66,7 @@ class PlgSystemHttpHeader extends JPlugin
 		foreach ($httpheaders as $httpheader)
 		{
 			// Handle the client settings foreach header
-			if (!$this->app->isClient($$httpheader->client) && $$httpheader->client != 'both')
+			if (!$this->app->isClient($httpheader->client) && $httpheader->client != 'both')
 			{
 				continue;
 			}
