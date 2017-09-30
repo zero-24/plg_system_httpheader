@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class PlgSystemHttpHeader extends JPlugin
 {
 	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  1.0
+	 */
+	 protected $autoloadLanguage = true;
+
+	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
@@ -23,6 +31,12 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	protected $app;
 
+	/**
+	 * The list of the suported HTTP headers
+	 *
+	 * @var    array
+	 * @since  1.0
+	 */
 	protected $supportedhttpHeaders = array(
 		'Strict-Transport-Security',
 		'Content-Security-Policy',
