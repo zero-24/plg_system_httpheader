@@ -60,10 +60,17 @@ class PlgSystemHttpHeader extends JPlugin
 	{
 		$this->setDefaultHeader();
 
+		// Handle the additional httpheader
 		$httpheaders = $this->params->get('additional_httpheader', array());
 
 		foreach ($httpheaders as $httpheader)
 		{
+			// Handle the client settings foreach header
+			if (!$this->app->isClient($$httpheader->client) && $$httpheader->client != 'both')
+			{
+				continue;
+			}
+
 			if (in_array($httpheader->key, $this->supportedhttpHeaders))
 			{
 				$this->app->setHeader($httpheader->key, $httpheader->value);
@@ -105,8 +112,6 @@ class PlgSystemHttpHeader extends JPlugin
 		}
 
 		// Referrer-Policy
-		$referrerpolicy = $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
-
-		$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+		$this->app->setHeader('Referrer-Policy', $this->params->get('referrerpolicy', 'no-referrer-when-downgrade'));
 	}
 }
