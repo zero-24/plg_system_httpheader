@@ -37,7 +37,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 * @var    array
 	 * @since  1.0
 	 */
-	protected $supportedhttpHeaders = array(
+	protected $supportedHttpHeaders = array(
 		'Strict-Transport-Security',
 		'Content-Security-Policy',
 		'Content-Security-Policy-Report-Only',
@@ -61,19 +61,19 @@ class PlgSystemHttpHeader extends JPlugin
 		$this->setDefaultHeader();
 
 		// Handle the additional httpheader
-		$httpheaders = $this->params->get('additional_httpheader', array());
+		$httpHeaders = $this->params->get('additional_httpheader', array());
 
-		foreach ($httpheaders as $httpheader)
+		foreach ($httpHeaders as $httpHeader)
 		{
 			// Handle the client settings foreach header
-			if (!$this->app->isClient($httpheader->client) && $httpheader->client != 'both')
+			if (!$this->app->isClient($httpHeader->client) && $httpHeader->client != 'both')
 			{
 				continue;
 			}
 
-			if (in_array($httpheader->key, $this->supportedhttpHeaders))
+			if (in_array($httpHeader->key, $this->supportedHttpHeaders))
 			{
-				$this->app->setHeader($httpheader->key, $httpheader->value);
+				$this->app->setHeader($httpHeader->key, $httpHeader->value);
 			}
 		}
 	}
@@ -88,25 +88,25 @@ class PlgSystemHttpHeader extends JPlugin
 	private function setDefaultHeader()
 	{
 		// X-Frame-Options
-		$xframeoptions = $this->params->get('xframeoptions', 1);
+		$xFrameOptions = $this->params->get('xframeoptions', 1);
 
-		if ($xframeoptions)
+		if ($xFrameOptions)
 		{
 			$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 		}
 
 		// X-XSS-Protection
-		$xxssprotection = $this->params->get('xxssprotection', 1);
+		$xXssProtection = $this->params->get('xxssprotection', 1);
 
-		if ($xxssprotection)
+		if ($xXssProtection)
 		{
 			$this->app->setHeader('X-XSS-Protection', '1; mode=block');
 		}
 
 		// X-Content-Type-Options
-		$xcontenttypeoptions = $this->params->get('xcontenttypeoptions', 1);
+		$xContentTypeOptions = $this->params->get('xcontenttypeoptions', 1);
 		
-		if ($xcontenttypeoptions)
+		if ($xContentTypeOptions)
 		{
 			$this->app->setHeader('X-Content-Type-Options', 'nosniff');
 		}
