@@ -28,8 +28,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="xxssprotection"
@@ -39,8 +39,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="xcontenttypeoptions"
@@ -50,8 +50,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="referrerpolicy"
