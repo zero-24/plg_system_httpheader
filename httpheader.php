@@ -8,12 +8,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
+
 /**
  * Plugin class for Http Header
  *
  * @since  1.0
  */
-class PlgSystemHttpHeader extends JPlugin
+class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -50,13 +53,27 @@ class PlgSystemHttpHeader extends JPlugin
 	);
 
 	/**
-	 * Listener for the `onAfterInitialise` event
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getSubscribedEvents()
+	{
+		return [
+			'onAfterInitialise' => 'setHttpHeaders',
+		];
+	}
+
+	/**
+	 * The `setHttpHeaders` methode handle the setting of the configured HTTP Headers
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	public function onAfterInitialise()
+	public function setHttpHeaders()
 	{
 		$this->setDefaultHeader();
 

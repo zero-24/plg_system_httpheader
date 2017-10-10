@@ -5,7 +5,7 @@
 	<author>Tobias Zulauf</author>
 	<copyright>(C) 2017 Tobias Zulauf All rights reserved.</copyright>
 	<authorUrl>https://www.jah-tz.de</authorUrl>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 	<license>GNU/GPL Version 2 or later</license>
 	<description>PLG_SYSTEM_HTTPHEADER_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
@@ -25,7 +25,7 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS"
 					description="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					>
 					<option value="1">JENABLED</option>
@@ -36,7 +36,7 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION"
 					description="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					>
 					<option value="1">JENABLED</option>
@@ -47,7 +47,7 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS"
 					description="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS_DESC"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					default="1"
 					>
 					<option value="1">JENABLED</option>
