@@ -112,6 +112,11 @@ class PlgSystemHttpHeader extends JPlugin
 		}
 
 		// Referrer-Policy
-		$this->app->setHeader('Referrer-Policy', $this->params->get('referrerpolicy', 'no-referrer-when-downgrade'));
+		$referrerpolicy = $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
+
+		if ($referrerpolicy !== 'disabled')
+		{
+			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+		}
 	}
 }

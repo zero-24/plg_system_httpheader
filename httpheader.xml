@@ -60,7 +60,7 @@
 					label="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY"
 					description="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_DESC"
 					>
-					<option value="">PLG_SYSTEM_HTTPHEADER_EMPTY_STRING</option>
+					<option value="disabled">PLG_SYSTEM_HTTPHEADER_EMPTY_STRING</option>
 					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_NO_REFERRER</option>
 					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADER_NO_REFERRER_WHEN_DOWNGRADE</option>
 					<option value="same-origin">PLG_SYSTEM_HTTPHEADER_SAME_ORIGIN</option>
