@@ -4,17 +4,20 @@
 		name="key"
 		type="text"
 		label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES_KEY"
+		class="span4"
 	/>
 	<field
 		name="value"
 		type="text"
 		label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES_VALUE"
+		class="span12"
 	/>
 	<field
 		name="client"
 		type="radio"
 		label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_CLIENT"
 		default="site"
+		class="span12"
 		>
 		<option value="site">PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_CLIENT_SITE</option>
 		<option value="administrator">PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_CLIENT_ADMINISTRATOR</option>
