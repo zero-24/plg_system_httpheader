@@ -71,6 +71,81 @@
 					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_UNSAFE_URL</option>
 				</field>
 				<field
+						name="hsts_start"
+						type="spacer"
+						label="PLG_SYSTEM_HTTPHEADER_HSTS_START"
+						showon="hsts:1"
+				/>
+				<field
+						name="hsts_note"
+						type="note"
+						description="PLG_SYSTEM_HTTPHEADER_HSTS_NOTE_DESC"
+						class="alert alert-success"
+						showon="hsts:1"
+				/>
+				<field
+					name="hsts"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_HSTS"
+					description="PLG_SYSTEM_HTTPHEADER_HSTS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+						name="hsts_maxage"
+						type="text"
+						label="PLG_SYSTEM_HTTPHEADER_HSTS_MAXAGE"
+						description="PLG_SYSTEM_HTTPHEADER_HSTS_MAXAGE_DESC"
+						default="300"
+						showon="hsts:1"
+				/>
+				<field
+						name="hsts_subdomains"
+						type="radio"
+						label="PLG_SYSTEM_HTTPHEADER_HSTS_SUBDOMAINS"
+						class="btn-group btn-group-yesno"
+						default="0"
+						showon="hsts:1"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+						name="hsts_subdomains_note"
+						type="note"
+						description="PLG_SYSTEM_HTTPHEADER_HSTS_SUBDOMAINS_NOTE_DESC"
+						class="alert alert-info"
+						showon="hsts:1"
+				/>
+				<field
+						name="hsts_preload"
+						type="radio"
+						label="PLG_SYSTEM_HTTPHEADER_HSTS_PRELOAD"
+						class="btn-group btn-group-yesno"
+						default="0"
+						showon="hsts:1"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+						name="hsts_preload_note"
+						type="note"
+						label="PLG_SYSTEM_HTTPHEADER_HSTS_PRELOAD_NOTE"
+						description="PLG_SYSTEM_HTTPHEADER_HSTS_PRELOAD_NOTE_DESC"
+						class="alert"
+						showon="hsts:1"
+				/>
+				<field
+						name="hsts_end"
+						type="spacer"
+						label="PLG_SYSTEM_HTTPHEADER_HSTS_END"
+						showon="hsts:1"
+				/>
+				<field
 						name="contentsecuritypolicy_start"
 						type="spacer"
 						label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_START"

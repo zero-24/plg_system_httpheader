@@ -63,6 +63,14 @@ class PlgSystemHttpHeader extends JPlugin
 		// X-Frame-Options
 		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
 
+		// Handle HSTS
+		$hstsOptions = $this->params->get('hsts', 0);
+
+		if ($hstsOptions)
+		{
+			$this->setHstsHeader();
+		}
+
 		if ($cspOptions)
 		{
 			// Handle CSP
@@ -104,6 +112,32 @@ class PlgSystemHttpHeader extends JPlugin
 				$this->app->setHeader($httpHeader->key, $httpHeader->value);
 			}
 		}
+	}
+
+	/**
+	 * Set the default headers when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function setHstsHeader()
+	{
+		$maxAge        = (int) $this->params->get('hsts_maxage', 300);
+		$hstsOptions   = array();
+		$hstsOptions[] = $maxAge < 300 ? 'max-age: 300' : 'max-age: ' . $maxAge;
+
+		if ($this->params->get('hsts_subdomains', 0))
+		{
+			$hstsOptions[] = 'includeSubDomains';
+		}
+
+		if ($this->params->get('hsts_subdomaihsts_preloadns', 0))
+		{
+			$hstsOptions[] = 'preload';
+		}
+
+		$this->app->setHeader('', implode('; ', $hstsOptions));
 	}
 
 	/**
