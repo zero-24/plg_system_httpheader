@@ -60,6 +60,22 @@ class PlgSystemHttpHeader extends JPlugin
 	{
 		$this->setDefaultHeader();
 
+		// Handle CSP
+		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
+
+		if ($cspOptions)
+		{
+			$this->setCspHeader();
+		}
+
+		// Handle HSTS
+		$hstsOptions = $this->params->get('hsts', 0);
+
+		if ($hstsOptions)
+		{
+			$this->setHstsHeader();
+		}
+
 		// Handle the additional httpheader
 		$httpHeaders = $this->params->get('additional_httpheader', array());
 
@@ -76,6 +92,32 @@ class PlgSystemHttpHeader extends JPlugin
 				$this->app->setHeader($httpHeader->key, $httpHeader->value);
 			}
 		}
+	}
+
+	/**
+	 * Set the HSTS header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function setHstsHeader()
+	{
+		$maxAge        = (int) $this->params->get('hsts_maxage', 300);
+		$hstsOptions   = array();
+		$hstsOptions[] = $maxAge < 300 ? 'max-age: 300' : 'max-age: ' . $maxAge;
+
+		if ($this->params->get('hsts_subdomains', 0))
+		{
+			$hstsOptions[] = 'includeSubDomains';
+		}
+
+		if ($this->params->get('hsts_subdomaihsts_preloadns', 0))
+		{
+			$hstsOptions[] = 'preload';
+		}
+
+		$this->app->setHeader('', implode('; ', $hstsOptions));
 	}
 
 	/**
@@ -117,6 +159,38 @@ class PlgSystemHttpHeader extends JPlugin
 		if ($referrerpolicy !== 'disabled')
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+		}
+	}
+
+
+	/**
+	 * Set the CSP header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function setCspHeader()
+	{
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$cspReadOnly  = $this->params->get('contentsecuritypolicy_report_only', 0);
+		$csp          = $cspReadOnly == 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+		$newCspValues = array();
+
+		foreach ($cspValues as $cspValue)
+		{
+			// Handle the client settings foreach header
+			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			{
+				continue;
+			}
+
+			$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
+		}
+
+		if (!empty($newCspValues))
+		{
+			$this->app->setHeader($csp, implode(';', $newCspValues));
 		}
 	}
 }
