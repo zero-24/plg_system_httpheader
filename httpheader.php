@@ -60,7 +60,7 @@ class PlgSystemHttpHeader extends JPlugin
 	{
 		$this->setDefaultHeader();
 
-		// X-Frame-Options
+		// Handle CSP
 		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
 
 		// Handle HSTS
@@ -73,27 +73,7 @@ class PlgSystemHttpHeader extends JPlugin
 
 		if ($cspOptions)
 		{
-			// Handle CSP
-			$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
-			$cspReadOnly  = $this->params->get('contentsecuritypolicy_report_only', 0);
-			$csp          = $cspReadOnly == 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
-			$newCspValues = array();
-
-			foreach ($cspValues as $cspValue)
-			{
-				// Handle the client settings foreach header
-				if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
-				{
-					continue;
-				}
-
-				$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
-			}
-
-			if (!empty($newCspValues))
-			{
-				$this->app->setHeader($csp, implode(';', $newCspValues));
-			}
+			$this->setCspHeader();
 		}
 
 		// Handle the additional httpheader
@@ -179,6 +159,38 @@ class PlgSystemHttpHeader extends JPlugin
 		if ($referrerpolicy !== 'disabled')
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+		}
+	}
+
+
+	/**
+	 * Set the CSP header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function setCspHeader()
+	{
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$cspReadOnly  = $this->params->get('contentsecuritypolicy_report_only', 0);
+		$csp          = $cspReadOnly == 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+		$newCspValues = array();
+
+		foreach ($cspValues as $cspValue)
+		{
+			// Handle the client settings foreach header
+			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			{
+				continue;
+			}
+
+			$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
+		}
+
+		if (!empty($newCspValues))
+		{
+			$this->app->setHeader($csp, implode(';', $newCspValues));
 		}
 	}
 }
