@@ -39,6 +39,8 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	protected $supportedHttpHeaders = array(
 		'Strict-Transport-Security',
+		'Content-Security-Policy',
+		'Content-Security-Policy-Report-Only',
 		'X-Frame-Options',
 		'X-XSS-Protection',
 		'X-Content-Type-Options',
