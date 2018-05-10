@@ -39,8 +39,6 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	protected $supportedHttpHeaders = array(
 		'Strict-Transport-Security',
-		'Content-Security-Policy',
-		'Content-Security-Policy-Report-Only',
 		'X-Frame-Options',
 		'X-XSS-Protection',
 		'X-Content-Type-Options',
@@ -59,6 +57,34 @@ class PlgSystemHttpHeader extends JPlugin
 	public function onAfterInitialise()
 	{
 		$this->setDefaultHeader();
+
+		// X-Frame-Options
+		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
+
+		if ($cspOptions)
+		{
+			// Handle CSP
+			$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+			$cspReadOnly  = $this->params->get('contentsecuritypolicy_report_only', 0);
+			$csp          = $cspReadOnly == 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+			$newCspValues = array();
+
+			foreach ($cspValues as $cspValue)
+			{
+				// Handle the client settings foreach header
+				if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+				{
+					continue;
+				}
+
+				$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
+			}
+
+			if (!empty($newCspValues))
+			{
+				$this->app->setHeader($csp, implode(';', $newCspValues));
+			}
+		}
 
 		// Handle the additional httpheader
 		$httpHeaders = $this->params->get('additional_httpheader', array());
