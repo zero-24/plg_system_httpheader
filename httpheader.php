@@ -63,17 +63,17 @@ class PlgSystemHttpHeader extends JPlugin
 		// Handle CSP
 		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
 
+		if ($cspOptions)
+		{
+			$this->setCspHeader();
+		}
+
 		// Handle HSTS
 		$hstsOptions = $this->params->get('hsts', 0);
 
 		if ($hstsOptions)
 		{
 			$this->setHstsHeader();
-		}
-
-		if ($cspOptions)
-		{
-			$this->setCspHeader();
 		}
 
 		// Handle the additional httpheader
@@ -95,7 +95,7 @@ class PlgSystemHttpHeader extends JPlugin
 	}
 
 	/**
-	 * Set the default headers when enabled
+	 * Set the HSTS header when enabled
 	 *
 	 * @return  void
 	 *
