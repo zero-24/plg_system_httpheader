@@ -60,6 +60,14 @@ class PlgSystemHttpHeader extends JPlugin
 	{
 		$this->setDefaultHeader();
 
+		// Handle CSP
+		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
+
+		if ($cspOptions)
+		{
+			$this->setCspHeader();
+		}
+
 		// Handle the additional httpheader
 		$httpHeaders = $this->params->get('additional_httpheader', array());
 
@@ -117,6 +125,38 @@ class PlgSystemHttpHeader extends JPlugin
 		if ($referrerpolicy !== 'disabled')
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+		}
+	}
+
+
+	/**
+	 * Set the CSP header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	private function setCspHeader()
+	{
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$cspReadOnly  = $this->params->get('contentsecuritypolicy_report_only', 0);
+		$csp          = $cspReadOnly == 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+		$newCspValues = array();
+
+		foreach ($cspValues as $cspValue)
+		{
+			// Handle the client settings foreach header
+			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			{
+				continue;
+			}
+
+			$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
+		}
+
+		if (!empty($newCspValues))
+		{
+			$this->app->setHeader($csp, implode(';', $newCspValues));
 		}
 	}
 }
