@@ -71,6 +71,19 @@
 					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_UNSAFE_URL</option>
 				</field>
 				<field
+						name="contentsecuritypolicy_start"
+						type="spacer"
+						label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_START"
+						showon="contentsecuritypolicy:1"
+				/>
+				<field
+						name="contentsecuritypolicy_note"
+						type="note"
+						class="alert alert-success"
+						label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_NOTE"
+						showon="contentsecuritypolicy:1"
+				/>
+				<field
 					name="contentsecuritypolicy"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY"
@@ -81,12 +94,6 @@
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 				</field>
-				<field
-					name="contentsecuritypolicy_values_desc"
-					type="spacer"
-					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES_DESC"
-					showon="contentsecuritypolicy:1"
-				/>
 				<field
 						name="contentsecuritypolicy_report_only"
 						type="radio"
@@ -107,6 +114,12 @@
 					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES"
 					min="1"
 					showon="contentsecuritypolicy:1"
+				/>
+				<field
+						name="contentsecuritypolicy_end"
+						type="spacer"
+						label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_END"
+						showon="contentsecuritypolicy:1"
 				/>
 				<field
 					name="additional_httpheader"
