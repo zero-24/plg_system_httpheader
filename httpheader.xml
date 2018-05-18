@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.8" type="plugin" group="system" method="upgrade">
 	<name>plg_system_httpheader</name>
-	<creationDate>01.10.2017</creationDate>
+	<creationDate>18.05.2018</creationDate>
 	<author>Tobias Zulauf</author>
-	<copyright>(C) 2017 Tobias Zulauf All rights reserved.</copyright>
+	<copyright>(C) 2017 - 2018 Tobias Zulauf All rights reserved.</copyright>
 	<authorUrl>https://www.jah-tz.de</authorUrl>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<license>GNU/GPL Version 2 or later</license>
 	<description>PLG_SYSTEM_HTTPHEADER_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
@@ -28,8 +28,8 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="xxssprotection"
@@ -39,8 +39,8 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="xcontenttypeoptions"
@@ -50,33 +50,113 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
 				</field>
 				<field
 					name="referrerpolicy"
 					type="list"
-					default="no-referrer-when-downgrade"
 					label="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY"
 					description="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_DESC"
+					default="no-referrer-when-downgrade"
 					>
-					<option value="disabled">PLG_SYSTEM_HTTPHEADER_EMPTY_STRING</option>
-					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_NO_REFERRER</option>
-					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADER_NO_REFERRER_WHEN_DOWNGRADE</option>
-					<option value="same-origin">PLG_SYSTEM_HTTPHEADER_SAME_ORIGIN</option>
-					<option value="origin">PLG_SYSTEM_HTTPHEADER_ORIGIN</option>
-					<option value="strict-origin">PLG_SYSTEM_HTTPHEADER_STRICT_ORIGIN</option>
-					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_ORIGIN_WHEN_CROSS_ORIGIN</option>
-					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
-					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_UNSAFE_URL</option>
+					<option value="disabled">JDISABLED</option>
+					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_NO_REFERRER</option>
+					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_NO_REFERRER_WHEN_DOWNGRADE</option>
+					<option value="same-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_SAME_ORIGIN</option>
+					<option value="origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_ORIGIN</option>
+					<option value="strict-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_STRICT_ORIGIN</option>
+					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_ORIGIN_WHEN_CROSS_ORIGIN</option>
+					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
+					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_UNSAFE_URL</option>
 				</field>
 				<field
 					name="additional_httpheader"
 					type="subform"
-					formsource="plugins/system/httpheader/subform/keyvalue.xml"
-					multiple="true"
 					label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER"
 					description="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_DESC"
+					formsource="plugins/system/httpheader/subform/customhttpheaders.xml"
+					multiple="true"
+				/>
+			</fieldset>
+			<fieldset name="hsts">
+				<field
+					name="hsts"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_HSTS"
+					description="PLG_SYSTEM_HTTPHEADER_HSTS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="hsts_maxage"
+					type="number"
+					label="PLG_SYSTEM_HTTPHEADER_HSTS_MAXAGE"
+					description="PLG_SYSTEM_HTTPHEADER_HSTS_MAXAGE_DESC"
+					default="31536000"
+					filter="integer"
+					showon="hsts:1"
+				/>
+				<field
+					name="hsts_subdomains"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_HSTS_SUBDOMAINS"
+					description="PLG_SYSTEM_HTTPHEADER_HSTS_SUBDOMAINS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="hsts:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="hsts_preload"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_HSTS_PRELOAD"
+					description="PLG_SYSTEM_HTTPHEADER_HSTS_PRELOAD_NOTE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="hsts:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+			</fieldset>
+			<fieldset name="csp">
+				<field
+					name="contentsecuritypolicy"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY"
+					description="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_report_only"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_REPORT_ONLY"
+					description="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_values"
+					type="subform"
+					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES"
+					formsource="plugins/system/httpheader/subform/cspkeyvalue.xml"
+					multiple="true"
+					min="1"
+					showon="contentsecuritypolicy:1"
 				/>
 			</fieldset>
 		</fields>

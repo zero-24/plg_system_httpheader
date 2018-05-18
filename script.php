@@ -2,7 +2,7 @@
 /**
  * HttpHeader Plugin
  *
- * @copyright  Copyright (C) 2017 Tobias Zulauf All rights reserved.
+ * @copyright  Copyright (C) 2017 - 2018 Tobias Zulauf All rights reserved.
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
 
@@ -27,7 +27,22 @@ class PlgSystemHttpHeaderInstallerScript extends JInstallerScript
 		$this->minimumPhp    = '7.0';
 
 		$this->deleteFiles = array(
-			// Delete files
+			'/plugins/system/httpheader/subform/keyvalue.xml',
 		);
+	}
+
+	/**
+	 * Function to perform changes during postflight
+	 *
+	 * @param   string            $type    The action being performed
+	 * @param   ComponentAdapter  $parent  The class calling this method
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.1
+	 */
+	public function postflight($type, $parent)
+	{
+		$this->removeFiles();
 	}
 }

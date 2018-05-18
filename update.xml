@@ -12,7 +12,6 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_httpheader/releases/download/1.0.0/plg_system_httpheader.zip</downloadurl>
 		</downloads>
-		<sha512>3d2f393080ad84723ad308d55368bb67b43e1bac08ca84ce336b6bbf8636115915cbc0d5976e6abb7565e94aac9f670e844c214a826792f4f3d6a3d634085113</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
