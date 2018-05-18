@@ -77,7 +77,7 @@ class PlgSystemHttpHeader extends JPlugin
 		}
 
 		// Handle the additional httpheader
-		$httpHeaders = $this->params->get('additional_httpheaders', array());
+		$httpHeaders = $this->params->get('additional_httpheader', array());
 
 		foreach ($httpHeaders as $httpHeader)
 		{
