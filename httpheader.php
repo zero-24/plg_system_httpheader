@@ -46,6 +46,7 @@ class PlgSystemHttpHeader extends JPlugin
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
+		'feature-policy',
 	);
 
 	/**
