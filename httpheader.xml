@@ -13,7 +13,6 @@
 		<folder>language</folder>
 		<folder>subform</folder>
 		<filename plugin="httpheader">httpheader.php</filename>
-		<file>httpheader.xml</file>
 	</files>
 	<updateservers>
 		<server type="extension" name="HttpHeader Update Site">https://raw.githubusercontent.com/zero-24/plg_system_httpheader/master/update.xml</server>
