@@ -27,6 +27,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -38,6 +39,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_XXSSPROTECTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -49,6 +51,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_XCONTENTTYPEOPTIONS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -59,6 +62,7 @@
 					label="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY"
 					description="PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_DESC"
 					default="no-referrer-when-downgrade"
+					validate="options"
 					>
 					<option value="disabled">JDISABLED</option>
 					<option value="no-referrer">PLG_SYSTEM_HTTPHEADER_REFERRERPOLICY_NO_REFERRER</option>
@@ -87,6 +91,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_HSTS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -98,6 +103,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_HSTS_MAXAGE_DESC"
 					default="31536000"
 					filter="integer"
+					validate="options"
 					showon="hsts:1"
 				/>
 				<field
@@ -107,6 +113,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_HSTS_SUBDOMAINS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					validate="options"
 					showon="hsts:1"
 					>
 					<option value="0">JDISABLED</option>
@@ -119,6 +126,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_HSTS_PRELOAD_NOTE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					validate="options"
 					showon="hsts:1"
 					>
 					<option value="0">JDISABLED</option>
@@ -133,6 +141,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -144,6 +153,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					validate="options"
 					showon="contentsecuritypolicy:1"
 					>
 					<option value="0">JDISABLED</option>
@@ -156,6 +166,7 @@
 					formsource="plugins/system/httpheader/subform/cspkeyvalue.xml"
 					multiple="true"
 					min="1"
+					validate="options"
 					showon="contentsecuritypolicy:1"
 				/>
 			</fieldset>

@@ -18,6 +18,7 @@
 		label="PLG_SYSTEM_HTTPHEADER_HEADER_CLIENT"
 		default="site"
 		class="span12"
+		validate="options"
 		>
 		<option value="site">JSITE</option>
 		<option value="administrator">JADMINISTRATOR</option>
