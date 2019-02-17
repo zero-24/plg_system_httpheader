@@ -7,8 +7,10 @@
  */
 
 defined('_JEXEC') or die;
+
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Text;#
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 
@@ -164,12 +166,12 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	private function getServerConfigFile()
 	{
-		if (file_exists($this->getPathTo(self::SERVER_CONFIG_FILE_HTACCESS)))
+		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS)))
 		{
 			return self::SERVER_CONFIG_FILE_HTACCESS;
 		}
 
-		if (file_exists($this->getPathTo(self::SERVER_CONFIG_FILE_WEBCONFIG)))
+		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG)))
 		{
 			return self::SERVER_CONFIG_FILE_WEBCONFIG;
 		}
@@ -186,7 +188,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 *
 	 * @since   1.0.6
 	 */
-	private function getPathTo($file)
+	private function getServerConfigFilePath($file)
 	{
 		if (self::SERVER_CONFIG_FILE_HTACCESS === $file)
 		{
@@ -260,13 +262,142 @@ class PlgSystemHttpHeader extends JPlugin
 	 * 
 	 * @param   array   Array of the static header configuration
 	 * 
-	 * @return  string  Buffer style text of the Header Configuration based on the server config file
+	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file or false on error.
 	 *
 	 * @since   1.0.6
 	 */
 	private function getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration)
 	{
-		// Not implemented yet
+		$webConfigDomDoc = new DOMDocument();
+
+		// We want a nice output
+		$webConfigDomDoc->formatOutput = true;
+		$webConfigDomDoc->preserveWhiteSpace = false;
+
+		// Load the current file into our object
+		$webConfigDomDoc->load("web.config2");
+
+		// Get an DOMXPath Object mathching our file
+		$xpath = new DOMXPath($webConfigDomDoc);
+
+		// We require an correct tree containing an system.webServer node!
+		$systemWebServer = $xpath->query("/configuration/location/system.webServer");
+
+		if ($systemWebServer->length === 0)
+		{
+			// The node does not exists we can't proceed from here.
+			return false;
+		}
+
+		// Check what configurations exists already
+		$httpProtocol  = $xpath->query("/configuration/location/system.webServer/httpProtocol");
+		$customHeaders = $xpath->query("/configuration/location/system.webServer/httpProtocol/customHeaders");
+
+		// Does the httpProtocol node exist?
+		if ($httpProtocol->length === 0)
+		{
+			$newHttpProtocol = $webConfigDomDoc->createElement('httpProtocol');
+			$newCustomHeaders = $webConfigDomDoc->createElement('customHeaders');
+
+			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+			{
+				$headerAndClient = explode('#', $headerAndClient);
+				$newHeader       = $webConfigDomDoc->createElement('add');
+
+				$newHeader->setAttribute('name', $headerAndClient[0]);
+				$newHeader->setAttribute('value', $value);
+				$newCustomHeaders->appendChild($newHeader);
+			}
+
+			$newHttpProtocol->appendChild($newCustomHeaders);
+			$systemWebServer[0]->appendChild($newHttpProtocol);
+		}
+		// It seams there are a httpProtocol node so does the customHeaders node exist?
+		elseif ($customHeaders->length === 0)
+		{
+			$newCustomHeaders = $webConfigDomDoc->createElement('customHeaders');
+
+			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+			{
+				$headerAndClient = explode('#', $headerAndClient);
+				$newHeader       = $webConfigDomDoc->createElement('add');
+
+				$newHeader->setAttribute('name', $headerAndClient[0]);
+				$newHeader->setAttribute('value', $value);
+				$newCustomHeaders->appendChild($newHeader);
+			}
+
+			$httpProtocol[0]->appendChild($newCustomHeaders);
+		}
+		// Well It seams httpProtocol and customHeaders exists lets check now the individual header (add) nodes
+		else
+		{
+			$oldCustomHeaders = $xpath->query("/configuration/location/system.webServer/httpProtocol/customHeaders/add");
+
+			// Here we check all headers and make sure they are configured with the correct value
+			foreach ($oldCustomHeaders as $oldCustomHeader)
+			{
+				foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+				{
+					$headerAndClient   = explode('#', $headerAndClient);
+					$customHeadersName = $oldCustomHeader->getAttribute('name');
+
+					if ($headerAndClient[0] != $customHeadersName)
+					{
+						continue;
+					}
+
+					$customHeadersValue = $oldCustomHeader->getAttribute('value');
+
+					if ($value === $customHeadersValue)
+					{
+						continue;
+					}
+
+					$oldCustomHeader->setAttribute('value', $value);
+				}
+			}
+
+			// Here we check all headers actually exists with the correct value
+			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+			{
+				$headerAndClient = explode('#', $headerAndClient);
+
+				// When no headers exitsts at all we can't find anything :D
+				if ($oldCustomHeaders->length === 0)
+				{
+					$found = false;
+				}
+
+				// Check if the header is currently set or not
+				foreach ($oldCustomHeaders as $oldCustomHeader)
+				{
+					$found = false;
+					$customHeadersName = $oldCustomHeader->getAttribute('name');
+
+					if ($headerAndClient[0] === $customHeadersName)
+					{
+						// We found it, well done.
+						$found = true;
+						break;
+					}
+				}
+				
+				// The header wasn't found we need to create it
+				if (!$found)
+				{
+					// Generate the new header Element
+					$newHeader = $webConfigDomDoc->createElement('add');
+					$newHeader->setAttribute('name', $headerAndClient[0]);
+					$newHeader->setAttribute('value', $value);
+
+					// Append the new header
+					$customHeaders[0]->appendChild($newHeader);
+				}
+			}
+		}
+
+		return $webConfigDomDoc->saveXML();
 	}
 
 	/**
@@ -280,29 +411,35 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	private function writeStaticHeaders($staticHeaderConfiguration)
 	{
-		$targetFilePath = $this->getHtaccessVsWebConfigFilePath();
-		$staticRulesContent = $this->getRulesForStaticHeaderConfiguration($staticHeaderConfiguration, $this->getServerConfigFile());
+		$pathToHtaccess  = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS);
+		$pathToWebConfig = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG);
 
 		if (file_exists($pathToHtaccess))
 		{
 			$staticRulesContent = $this->getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
-			$targetFilePath = $pathToHtaccess;
+
+			if (is_readable($pathToHtaccess) && !empty($staticRulesContent))
+			{
+				// Write the htaccess using the Frameworks File Class
+				return File::write($targetFilePath, $staticRulesContent);
+			}
 		}
 
 		if (file_exists($pathToWebConfig))
 		{
 			$staticRulesContent = $this->getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
-			$targetFilePath     = $pathToWebConfig;
-		}
 
-		if (is_readable($targetFilePath) && !empty($staticRulesContent))
-		{
-			/**
-			 * The Joomla Framework Filesystem Package does not support yet appending to an file.
-			 * Please see https://github.com/joomla-framework/filesystem/pull/21 for an implementation
-			 * When this is implemented we should use: Joomla/Filesystem/File::write($targetFilePath, $staticRulesContent, true);
-			 */
-			return \is_int(file_put_contents($targetFilePath, $staticRulesContent, FILE_APPEND));
+			if (is_readable($pathToWebConfig) && !empty($staticRulesContent))
+			{
+				// Setup and than write the web.config write using DOMDocument
+				$webConfigDomDoc = new DOMDocument();
+				$webConfigDomDoc->formatOutput = true;
+				$webConfigDomDoc->preserveWhiteSpace = false;
+				$webConfigDomDoc->loadXML($staticRulesContent);
+
+				// When the return code is an integer we got the bytes and everything went well if not something broke..
+				return is_integer($webConfigDomDoc->save($pathToWebConfig)) ? true : false;
+			}
 		}
 	}
 
