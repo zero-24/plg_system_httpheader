@@ -260,10 +260,12 @@ class PlgSystemHttpHeader extends JPlugin
 
 			if ($scriptLines)
 			{
-				unset($oldHtaccessBuffer[$id]);
+				// When we are between our makers all content should be removed
+				continue;
 			}
 
-			if ($line === '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - END ###')
+			if ($line === '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - END ###'
+				|| $line === '##############################################################')
 			{
 				$scriptLines = false;
 				continue;
@@ -272,14 +274,14 @@ class PlgSystemHttpHeader extends JPlugin
 			$newHtaccessBuffer .= $line . PHP_EOL;
 		}
 
-		$newHtaccessBuffer .= PHP_EOL;
 		$newHtaccessBuffer .= '##############################################################' . PHP_EOL;
 		$newHtaccessBuffer .= '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - START ###' . PHP_EOL;
 		$newHtaccessBuffer .= '<IfModule mod_headers.c>' . PHP_EOL;
 
-		foreach ($staticHeaderConfiguration as $header => $value)
+		foreach ($staticHeaderConfiguration as $headerAndClient => $value)
 		{
-			$newHtaccessBuffer .= '    Header always set ' . $header . ' "' . $value . '"' . PHP_EOL;
+			$headerAndClient = explode('#', $headerAndClient);
+			$newHtaccessBuffer .= '    Header always set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
 		}
 
 		$newHtaccessBuffer .= '</IfModule>' . PHP_EOL;
