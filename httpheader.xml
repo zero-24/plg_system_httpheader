@@ -21,6 +21,19 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="write_static_headers"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADER_WRITE_STATIC_HEADERS"
+					description="PLG_SYSTEM_HTTPHEADER_WRITE_STATIC_HEADERS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+			
+				<field
 					name="xframeoptions"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_XFRAMEOPTIONS"

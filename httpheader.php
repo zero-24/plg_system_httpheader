@@ -69,7 +69,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 * @var    string
 	 * @since  1.0.6
 	 */
-	const SERVER_CONFIG_FILE_HTACCESS = 'htaccess';
+	const SERVER_CONFIG_FILE_HTACCESS = '.htaccess';
 
 		/**
 	 * Defines the Server config file type web.config
@@ -132,7 +132,7 @@ class PlgSystemHttpHeader extends JPlugin
 
 		if ($serverConfigFile === self::SERVER_CONFIG_FILE_NONE) // Constante
 		{
-			$this->app->enqueueMessage(Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN_NO_SERVER_CONFIGFILE_FOUND'), 'error');
+			$this->app->enqueueMessage(Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN_NO_SERVER_CONFIGFILE_FOUND'), 'warning');
 			return;
 		}
 
@@ -151,8 +151,11 @@ class PlgSystemHttpHeader extends JPlugin
 
 		// Something did not work tell them that and how to update themself ..
 		$this->app->enqueueMessage(
-			Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN',
-			$this->getRulesForStaticHeaderConfiguration($staticHeaderConfiguration, $serverConfigFile)),
+			Text::_(
+				'PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN',
+				$serverConfigFile,
+				$this->getRulesForStaticHeaderConfiguration($staticHeaderConfiguration, $serverConfigFile)
+			),
 			'error'
 		);
 	}
@@ -192,12 +195,12 @@ class PlgSystemHttpHeader extends JPlugin
 	{
 		if (self::SERVER_CONFIG_FILE_HTACCESS === $file)
 		{
-			return JPATH_ROOT . '/' . '.htaccess';
+			return JPATH_ROOT . '/' . self::SERVER_CONFIG_FILE_HTACCESS;
 		}
 
 		if (self::SERVER_CONFIG_FILE_WEBCONFIG === $file)
 		{
-			return JPATH_ROOT . '/' . 'web.config';
+			return JPATH_ROOT . '/' . self::SERVER_CONFIG_FILE_WEBCONFIG;
 		}
 
 		return false;
