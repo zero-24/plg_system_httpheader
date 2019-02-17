@@ -233,28 +233,61 @@ class PlgSystemHttpHeader extends JPlugin
 	 * 
 	 * @param   array   Array of the static header configuration
 	 * 
-	 * @return  string  Buffer style text of the Header Configuration based on the server config file
+	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file; false on error
 	 *
 	 * @since   1.0.6
 	 */
 	private function getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration)
 	{
-		$htaccessBuffer = PHP_EOL;
-		$htaccessBuffer .= '##############################################################' . PHP_EOL;
-		$htaccessBuffer .= '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! ###' . PHP_EOL;
-		$htaccessBuffer .= '<IfModule mod_headers.c>' . PHP_EOL;
+		$oldHtaccessBuffer = file($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS), FILE_IGNORE_NEW_LINES);
+		$newHtaccessBuffer = '';
+
+		if ($oldHtaccessBuffer === false)
+		{
+			// `file` couldn't read the htaccess we can't do anything at this point
+			return false;
+		}
+
+		$scriptLines = false;
+
+		foreach ($oldHtaccessBuffer as $id => $line)
+		{
+			if ($line === '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - START ###')
+			{
+				$scriptLines = true;
+				continue;
+			}
+
+			if ($scriptLines)
+			{
+				unset($oldHtaccessBuffer[$id]);
+			}
+
+			if ($line === '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - END ###')
+			{
+				$scriptLines = false;
+				continue;
+			}
+
+			$newHtaccessBuffer .= $line . PHP_EOL;
+		}
+
+		$newHtaccessBuffer .= PHP_EOL;
+		$newHtaccessBuffer .= '##############################################################' . PHP_EOL;
+		$newHtaccessBuffer .= '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - START ###' . PHP_EOL;
+		$newHtaccessBuffer .= '<IfModule mod_headers.c>' . PHP_EOL;
 
 		foreach ($staticHeaderConfiguration as $header => $value)
 		{
-			$htaccessBuffer .= 'Header always set ' . $header . ' "' . $value . '"' . PHP_EOL;
+			$newHtaccessBuffer .= '    Header always set ' . $header . ' "' . $value . '"' . PHP_EOL;
 		}
 
-		$htaccessBuffer .= '</IfModule>' . PHP_EOL;
-		$htaccessBuffer .= '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! ###' . PHP_EOL;
-		$htaccessBuffer .= '##############################################################' . PHP_EOL;
-		$htaccessBuffer .= PHP_EOL;
+		$newHtaccessBuffer .= '</IfModule>' . PHP_EOL;
+		$newHtaccessBuffer .= '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - END ###' . PHP_EOL;
+		$newHtaccessBuffer .= '##############################################################' . PHP_EOL;
+		$newHtaccessBuffer .= PHP_EOL;
 
-		return $htaccessBuffer;
+		return $newHtaccessBuffer;
 	}
 
 	/**
