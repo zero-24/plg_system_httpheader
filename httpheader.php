@@ -132,7 +132,11 @@ class PlgSystemHttpHeader extends JPlugin
 
 		if ($serverConfigFile === self::SERVER_CONFIG_FILE_NONE) // Constante
 		{
-			$this->app->enqueueMessage(Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN_NO_SERVER_CONFIGFILE_FOUND'), 'warning');
+			$this->app->enqueueMessage(
+				Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN_NO_SERVER_CONFIGFILE_FOUND'),
+				'warning'
+			);
+
 			return;
 		}
 
@@ -145,7 +149,11 @@ class PlgSystemHttpHeader extends JPlugin
 		if ($result)
 		{
 			// Show messge that everything was done
-			$this->app->enqueueMessage(Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_WRITTEN'), 'message');
+			$this->app->enqueueMessage(
+				Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_WRITTEN'),
+				'message'
+			);
+
 			return;
 		}
 
