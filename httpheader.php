@@ -113,8 +113,8 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	public function onExtensionAfterSave($context, $table, $isNew)
 	{
-		// When the Updated extension is not plg_system_httpheader we don't do anything
-		if ($context != $this->_name)
+		// When the updated extension is not plg_system_httpheader we don't do anything
+		if ($table->element != $this->_name || $table->folder !=  $this->_type)
 		{
 			return;
 		}
@@ -130,7 +130,7 @@ class PlgSystemHttpHeader extends JPlugin
 
 		$serverConfigFile = $this->getServerConfigFile();
 
-		if ($serverConfigFile === self::SERVER_CONFIG_FILE_NONE) // Constante
+		if ($serverConfigFile === self::SERVER_CONFIG_FILE_NONE)
 		{
 			$this->app->enqueueMessage(
 				Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN_NO_SERVER_CONFIGFILE_FOUND'),
@@ -159,7 +159,7 @@ class PlgSystemHttpHeader extends JPlugin
 
 		// Something did not work tell them that and how to update themself ..
 		$this->app->enqueueMessage(
-			Text::_(
+			Text::sprintf(
 				'PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN',
 				$serverConfigFile,
 				$this->getRulesForStaticHeaderConfiguration($staticHeaderConfiguration, $serverConfigFile)
@@ -321,7 +321,7 @@ class PlgSystemHttpHeader extends JPlugin
 		$webConfigDomDoc->preserveWhiteSpace = false;
 
 		// Load the current file into our object
-		$webConfigDomDoc->load("web.config2");
+		$webConfigDomDoc->load($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG));
 
 		// Get an DOMXPath Object mathching our file
 		$xpath = new DOMXPath($webConfigDomDoc);
@@ -467,7 +467,7 @@ class PlgSystemHttpHeader extends JPlugin
 			if (is_readable($pathToHtaccess) && !empty($staticRulesContent))
 			{
 				// Write the htaccess using the Frameworks File Class
-				return File::write($targetFilePath, $staticRulesContent);
+				return File::write($pathToHtaccess, $staticRulesContent);
 			}
 		}
 
