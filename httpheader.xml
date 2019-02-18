@@ -111,7 +111,7 @@
 					description="PLG_SYSTEM_HTTPHEADER_HSTS_MAXAGE_DESC"
 					default="31536000"
 					filter="integer"
-					validate="integer"
+					validate="number"
 					showon="hsts:1"
 				/>
 				<field

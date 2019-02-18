@@ -556,19 +556,19 @@ class PlgSystemHttpHeader extends JPlugin
 
 		$additionalHttpHeaders = $pluginParams->get('additional_httpheader', array());
 
-		foreach ($httpHeaders as $httpHeader)
+		foreach ($additionalHttpHeaders as $additionalHttpHeader)
 		{
-			if (empty($httpHeader->key) || empty($httpHeader->value))
+			if (empty($additionalHttpHeader->key) || empty($additionalHttpHeader->value))
 			{
 				continue;
 			}
 
-			if (!in_array(strtolower($httpHeader->key), $this->supportedHttpHeaders))
+			if (!in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders))
 			{
 				continue;
 			}
 
-			$staticHeaderConfiguration[$httpHeader->key . '#' . $httpHeader->client] = $httpHeader->value;
+			$staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client] = $additionalHttpHeader->value;
 		}
 
 		return $staticHeaderConfiguration;
