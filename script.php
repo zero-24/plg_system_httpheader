@@ -24,7 +24,7 @@ class PlgSystemHttpHeaderInstallerScript extends JInstallerScript
 	{
 		// Define the minumum versions to be supported.
 		$this->minimumJoomla = '3.9';
-		$this->minimumPhp    = '7.2';
+		$this->minimumPhp    = '7.0';
 
 		$this->deleteFiles = array(
 			'/plugins/system/httpheader/subform/keyvalue.xml',
