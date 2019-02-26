@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
@@ -18,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.0
  */
-class PlgSystemHttpHeader extends JPlugin
+class PlgSystemHttpHeader extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -42,7 +43,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 * @var    array
 	 * @since  1.0
 	 */
-	protected $supportedHttpHeaders = array(
+	protected $supportedHttpHeaders = [
 		'strict-transport-security',
 		'content-security-policy',
 		'content-security-policy-report-only',
@@ -52,7 +53,15 @@ class PlgSystemHttpHeader extends JPlugin
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
-	);
+	];
+
+	/**
+	 * The static header configuration as array
+	 *
+	 * @var    array
+	 * @since  1.0.6
+	 */
+	protected $staticHeaderConfiguration = [];
 
 	/**
 	 * Defines the Server config file type none
@@ -479,7 +488,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	private function getStaticHeaderConfiguration($pluginParams = false)
 	{
-		$staticHeaderConfiguration = array();
+		$staticHeaderConfiguration = [];
 
 		// Fallback to $this->params when no params has been passed
 		if ($pluginParams === false)
@@ -519,7 +528,7 @@ class PlgSystemHttpHeader extends JPlugin
 		if ($strictTransportSecurity)
 		{
 			$maxAge        = (int) $pluginParams->get('hsts_maxage', 31536000);
-			$hstsOptions   = array();
+			$hstsOptions   = [];
 			$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
 
 			if ($pluginParams->get('hsts_subdomains', 0))
@@ -535,7 +544,7 @@ class PlgSystemHttpHeader extends JPlugin
 			$staticHeaderConfiguration['Strict-Transport-Security' . '#both'] = implode('; ', $hstsOptions);
 		}
 
-		$additionalHttpHeaders = $pluginParams->get('additional_httpheader', array());
+		$additionalHttpHeaders = $pluginParams->get('additional_httpheader', []);
 
 		foreach ($additionalHttpHeaders as $additionalHttpHeader)
 		{
@@ -595,10 +604,10 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	private function setCspHeader()
 	{
-		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', []);
 		$cspReadOnly  = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
 		$csp          = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
-		$newCspValues = array();
+		$newCspValues = [];
 
 		foreach ($cspValues as $cspValue)
 		{
