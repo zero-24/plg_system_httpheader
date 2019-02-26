@@ -176,12 +176,14 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	private function getServerConfigFile()
 	{
-		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS)))
+		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS))
+			&& strpos('apache', strtolower($_SERVER['SERVER_SOFTWARE'])))
 		{
 			return self::SERVER_CONFIG_FILE_HTACCESS;
 		}
 
-		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG)))
+		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG))
+			&& strpos('microsoft', strtolower($_SERVER['SERVER_SOFTWARE'])))
 		{
 			return self::SERVER_CONFIG_FILE_WEBCONFIG;
 		}
@@ -428,7 +430,7 @@ class PlgSystemHttpHeader extends JPlugin
 	/**
 	 * Wirte the static headers.
 	 * 
-	 * @return  boolean  True on success; false on anny error
+	 * @return  boolean  True on success; false on any error
 	 *
 	 * @since   1.0.6
 	 */
