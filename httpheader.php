@@ -60,7 +60,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 * @var    string
 	 * @since  1.0.6
 	 */
-	const SERVER_CONFIG_FILE_NONE = 'none';
+	const SERVER_CONFIG_FILE_NONE = '';
 
 	/**
 	 * Defines the Server config file type htaccess
@@ -122,14 +122,14 @@ class PlgSystemHttpHeader extends JPlugin
 		$pluginParams = new Registry($table->get('params'));
 
 		// When the option is disabled we don't do anything here.
-		if ($pluginParams->get('write_static_headers', 0) === 0)
+		if (!$pluginParams->get('write_static_headers', 0))
 		{
 			return;
 		}
 
 		$serverConfigFile = $this->getServerConfigFile();
 
-		if ($serverConfigFile === self::SERVER_CONFIG_FILE_NONE)
+		if (!$serverConfigFile)
 		{
 			$this->app->enqueueMessage(
 				Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN_NO_SERVER_CONFIGFILE_FOUND'),
@@ -140,10 +140,10 @@ class PlgSystemHttpHeader extends JPlugin
 		}
 
 		// Get the StaticHeaderConfiguration
-		$staticHeaderConfiguration = $this->getStaticHeaderConfiguration($pluginParams);
+		$this->staticHeaderConfiguration = $this->getStaticHeaderConfiguration($pluginParams);
 
 		// Write the static headers
-		$result = $this->writeStaticHeaders($staticHeaderConfiguration);
+		$result = $this->writeStaticHeaders();
 
 		if ($result)
 		{
@@ -161,7 +161,7 @@ class PlgSystemHttpHeader extends JPlugin
 			Text::sprintf(
 				'PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN',
 				$serverConfigFile,
-				$this->getRulesForStaticHeaderConfiguration($staticHeaderConfiguration, $serverConfigFile)
+				$this->getRulesForStaticHeaderConfiguration($serverConfigFile)
 			),
 			'error'
 		);
@@ -216,23 +216,22 @@ class PlgSystemHttpHeader extends JPlugin
 	/**
 	 * Return the static Header Configuration based on the server config file
 	 * 
-	 * @param   array   Array of the static header configuration
 	 * @param   string  Constant holding the server configuration file
 	 * 
 	 * @return  string  Buffer style text of the Header Configuration based on the server config file
 	 *
 	 * @since   1.0.6
 	 */
-	private function getRulesForStaticHeaderConfiguration($staticHeaderConfiguration, $serverConfigFile)
+	private function getRulesForStaticHeaderConfiguration($serverConfigFile)
 	{
 		if ($serverConfigFile === self::SERVER_CONFIG_FILE_HTACCESS)
 		{
-			return $this->getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
+			return $this->getHtaccessRulesForStaticHeaderConfiguration();
 		}
 
 		if ($serverConfigFile === self::SERVER_CONFIG_FILE_WEBCONFIG)
 		{
-			return $this->getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
+			return $this->getWebConfigRulesForStaticHeaderConfiguration();
 		}
 
 		return false;
@@ -241,21 +240,19 @@ class PlgSystemHttpHeader extends JPlugin
 	/**
 	 * Return the static Header Configuration based in the .htaccess format
 	 * 
-	 * @param   array   Array of the static header configuration
-	 * 
-	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file; false on error
+	 * @return  string  Buffer style text of the Header Configuration based on the server config file; empty string on error
 	 *
 	 * @since   1.0.6
 	 */
-	private function getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration)
+	private function getHtaccessRulesForStaticHeaderConfiguration()
 	{
 		$oldHtaccessBuffer = file($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS), FILE_IGNORE_NEW_LINES);
 		$newHtaccessBuffer = '';
 
-		if ($oldHtaccessBuffer === false)
+		if (!$oldHtaccessBuffer)
 		{
 			// `file` couldn't read the htaccess we can't do anything at this point
-			return false;
+			return '';
 		}
 
 		$scriptLines = false;
@@ -288,7 +285,7 @@ class PlgSystemHttpHeader extends JPlugin
 		$newHtaccessBuffer .= '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - START ###' . PHP_EOL;
 		$newHtaccessBuffer .= '<IfModule mod_headers.c>' . PHP_EOL;
 
-		foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+		foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 		{
 			$headerAndClient = explode('#', $headerAndClient);
 			$newHtaccessBuffer .= '    Header always set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
@@ -305,13 +302,11 @@ class PlgSystemHttpHeader extends JPlugin
 	/**
 	 * Return the static Header Configuration based in the web.config format
 	 * 
-	 * @param   array   Array of the static header configuration
-	 * 
 	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file or false on error.
 	 *
 	 * @since   1.0.6
 	 */
-	private function getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration)
+	private function getWebConfigRulesForStaticHeaderConfiguration()
 	{
 		$webConfigDomDoc = new DOMDocument('1.0', 'UTF-8');
 
@@ -344,7 +339,7 @@ class PlgSystemHttpHeader extends JPlugin
 			$newHttpProtocol = $webConfigDomDoc->createElement('httpProtocol');
 			$newCustomHeaders = $webConfigDomDoc->createElement('customHeaders');
 
-			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+			foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 			{
 				$headerAndClient = explode('#', $headerAndClient);
 				$newHeader       = $webConfigDomDoc->createElement('add');
@@ -362,7 +357,7 @@ class PlgSystemHttpHeader extends JPlugin
 		{
 			$newCustomHeaders = $webConfigDomDoc->createElement('customHeaders');
 
-			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+			foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 			{
 				$headerAndClient = explode('#', $headerAndClient);
 				$newHeader       = $webConfigDomDoc->createElement('add');
@@ -380,7 +375,7 @@ class PlgSystemHttpHeader extends JPlugin
 			$oldCustomHeaders = $xpath->query("/configuration/location/system.webServer/httpProtocol/customHeaders/add");
 
 			// Here we check all headers actually exists with the correct value
-			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+			foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 			{
 				$headerAndClient = explode('#', $headerAndClient);
 
@@ -432,21 +427,19 @@ class PlgSystemHttpHeader extends JPlugin
 
 	/**
 	 * Wirte the static headers.
-	 *
-	 * @param   array  The array containing the headers and values to write
 	 * 
 	 * @return  boolean  True on success; false on anny error
 	 *
 	 * @since   1.0.6
 	 */
-	private function writeStaticHeaders($staticHeaderConfiguration)
+	private function writeStaticHeaders()
 	{
 		$pathToHtaccess  = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS);
 		$pathToWebConfig = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG);
 
 		if (file_exists($pathToHtaccess))
 		{
-			$htaccessContent = $this->getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
+			$htaccessContent = $this->getHtaccessRulesForStaticHeaderConfiguration();
 
 			if (is_readable($pathToHtaccess) && !empty($htaccessContent))
 			{
@@ -457,7 +450,7 @@ class PlgSystemHttpHeader extends JPlugin
 
 		if (file_exists($pathToWebConfig))
 		{
-			$webConfigContent = $this->getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
+			$webConfigContent = $this->getWebConfigRulesForStaticHeaderConfiguration();
 
 			if (is_readable($pathToWebConfig) && !empty($webConfigContent))
 			{
