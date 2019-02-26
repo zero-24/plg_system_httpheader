@@ -9,10 +9,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Language\Text;#
+use Joomla\CMS\Language\Text;
 use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
-
 
 /**
  * Plugin class for Http Header
@@ -269,16 +268,16 @@ class PlgSystemHttpHeader extends JPlugin
 				continue;
 			}
 
-			if ($scriptLines)
-			{
-				// When we are between our makers all content should be removed
-				continue;
-			}
-
 			if ($line === '### MANAGED BY PLG_SYSTEM_HTTPHEADER DO NOT MANUALLY EDIT! - END ###'
 				|| $line === '##############################################################')
 			{
 				$scriptLines = false;
+				continue;
+			}
+
+			if ($scriptLines)
+			{
+				// When we are between our makers all content should be removed
 				continue;
 			}
 
@@ -314,7 +313,7 @@ class PlgSystemHttpHeader extends JPlugin
 	 */
 	private function getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration)
 	{
-		$webConfigDomDoc = new DOMDocument();
+		$webConfigDomDoc = new DOMDocument('1.0', 'UTF-8');
 
 		// We want a nice output
 		$webConfigDomDoc->formatOutput = true;
@@ -329,9 +328,9 @@ class PlgSystemHttpHeader extends JPlugin
 		// We require an correct tree containing an system.webServer node!
 		$systemWebServer = $xpath->query("/configuration/location/system.webServer");
 
-		if ($systemWebServer->length === 0)
+		if ($systemWebServer->length === 0 || $systemWebServer->length > 1)
 		{
-			// The node does not exists we can't proceed from here.
+			// There is only one (or none)
 			return false;
 		}
 
@@ -380,30 +379,6 @@ class PlgSystemHttpHeader extends JPlugin
 		{
 			$oldCustomHeaders = $xpath->query("/configuration/location/system.webServer/httpProtocol/customHeaders/add");
 
-			// Here we check all headers and make sure they are configured with the correct value
-			foreach ($oldCustomHeaders as $oldCustomHeader)
-			{
-				foreach ($staticHeaderConfiguration as $headerAndClient => $value)
-				{
-					$headerAndClient   = explode('#', $headerAndClient);
-					$customHeadersName = $oldCustomHeader->getAttribute('name');
-
-					if ($headerAndClient[0] != $customHeadersName)
-					{
-						continue;
-					}
-
-					$customHeadersValue = $oldCustomHeader->getAttribute('value');
-
-					if ($value === $customHeadersValue)
-					{
-						continue;
-					}
-
-					$oldCustomHeader->setAttribute('value', $value);
-				}
-			}
-
 			// Here we check all headers actually exists with the correct value
 			foreach ($staticHeaderConfiguration as $headerAndClient => $value)
 			{
@@ -440,6 +415,15 @@ class PlgSystemHttpHeader extends JPlugin
 					// Append the new header
 					$customHeaders[0]->appendChild($newHeader);
 				}
+
+				$customHeadersValue = $oldCustomHeader->getAttribute('value');
+
+				if ($value === $customHeadersValue)
+				{
+					continue;
+				}
+
+				$oldCustomHeader->setAttribute('value', $value);
 			}
 		}
 
@@ -462,26 +446,26 @@ class PlgSystemHttpHeader extends JPlugin
 
 		if (file_exists($pathToHtaccess))
 		{
-			$staticRulesContent = $this->getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
+			$htaccessContent = $this->getHtaccessRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
 
-			if (is_readable($pathToHtaccess) && !empty($staticRulesContent))
+			if (is_readable($pathToHtaccess) && !empty($htaccessContent))
 			{
 				// Write the htaccess using the Frameworks File Class
-				return File::write($pathToHtaccess, $staticRulesContent);
+				return File::write($pathToHtaccess, $htaccessContent);
 			}
 		}
 
 		if (file_exists($pathToWebConfig))
 		{
-			$staticRulesContent = $this->getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
+			$webConfigContent = $this->getWebConfigRulesForStaticHeaderConfiguration($staticHeaderConfiguration);
 
-			if (is_readable($pathToWebConfig) && !empty($staticRulesContent))
+			if (is_readable($pathToWebConfig) && !empty($webConfigContent))
 			{
 				// Setup and than write the web.config write using DOMDocument
 				$webConfigDomDoc = new DOMDocument();
 				$webConfigDomDoc->formatOutput = true;
 				$webConfigDomDoc->preserveWhiteSpace = false;
-				$webConfigDomDoc->loadXML($staticRulesContent);
+				$webConfigDomDoc->loadXML($webConfigContent);
 
 				// When the return code is an integer we got the bytes and everything went well if not something broke..
 				return is_integer($webConfigDomDoc->save($pathToWebConfig)) ? true : false;
@@ -509,41 +493,35 @@ class PlgSystemHttpHeader extends JPlugin
 		}
 
 		// X-Frame-Options
-		$xFrameOptions = $pluginParams->get('xframeoptions', 1);
-
-		if ($xFrameOptions)
+		if ($pluginParams->get('xframeoptions'))
 		{
 			$staticHeaderConfiguration['X-Frame-Options' . '#both'] = 'SAMEORIGIN';
 		}
 
 		// X-XSS-Protection
-		$xXssProtection = $pluginParams->get('xxssprotection', 1);
-
-		if ($xXssProtection)
+		if ($pluginParams->get('xxssprotection'))
 		{
 			$staticHeaderConfiguration['X-XSS-Protection' . '#both'] = '1; mode=block';
 		}
 
 		// X-Content-Type-Options
-		$xContentTypeOptions = $pluginParams->get('xcontenttypeoptions', 1);
-		
-		if ($xContentTypeOptions)
+		if ($pluginParams->get('xcontenttypeoptions'))
 		{
 			$staticHeaderConfiguration['X-Content-Type-Options' . '#both'] = 'nosniff';
 		}
 
 		// Referrer-Policy
-		$referrerpolicy = (string) $pluginParams->get('referrerpolicy', 'no-referrer-when-downgrade');
+		$referrerPolicy = (string) $pluginParams->get('referrerpolicy', 'no-referrer-when-downgrade');
 
-		if ($referrerpolicy !== 'disabled')
+		if ($referrerPolicy !== 'disabled')
 		{
 			$staticHeaderConfiguration['Referrer-Policy' . '#both'] = $referrerpolicy;
 		}
 
 		// Strict-Transport-Security
-		$stricttransportsecurity = (int) $pluginParams->get('hsts', 0);
+		$strictTransportSecurity = (int) $pluginParams->get('hsts', 0);
 
-		if ($stricttransportsecurity)
+		if ($strictTransportSecurity)
 		{
 			$maxAge        = (int) $pluginParams->get('hsts_maxage', 31536000);
 			$hstsOptions   = array();
