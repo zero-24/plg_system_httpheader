@@ -79,7 +79,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	const SERVER_CONFIG_FILE_HTACCESS = '.htaccess';
 
-		/**
+	/**
 	 * Defines the Server config file type web.config
 	 *
 	 * @var    string
@@ -211,17 +211,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	private function getServerConfigFilePath($file)
 	{
-		if (self::SERVER_CONFIG_FILE_HTACCESS === $file)
-		{
-			return JPATH_ROOT . '/' . self::SERVER_CONFIG_FILE_HTACCESS;
-		}
-
-		if (self::SERVER_CONFIG_FILE_WEBCONFIG === $file)
-		{
-			return JPATH_ROOT . '/' . self::SERVER_CONFIG_FILE_WEBCONFIG;
-		}
-
-		return false;
+		return JPATH_ROOT . '/' . self::SERVER_CONFIG_FILE_WEBCONFIG;
 	}
 
 	/**
