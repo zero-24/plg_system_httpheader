@@ -154,25 +154,25 @@ class PlgSystemHttpHeader extends CMSPlugin
 		// Write the static headers
 		$result = $this->writeStaticHeaders();
 
-		if ($result)
+		if (!$result)
 		{
-			// Show messge that everything was done
+			// Something did not work tell them that and how to update themself.
 			$this->app->enqueueMessage(
-				Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_WRITTEN'),
-				'message'
+				Text::sprintf(
+					'PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN',
+					$serverConfigFile,
+					$this->getRulesForStaticHeaderConfiguration($serverConfigFile)
+				),
+				'error'
 			);
 
 			return;
 		}
 
-		// Something did not work tell them that and how to update themself ..
+		// Show messge that everything was done
 		$this->app->enqueueMessage(
-			Text::sprintf(
-				'PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_NOT_WRITTEN',
-				$serverConfigFile,
-				$this->getRulesForStaticHeaderConfiguration($serverConfigFile)
-			),
-			'error'
+			Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_WRITTEN'),
+			'message'
 		);
 	}
 
