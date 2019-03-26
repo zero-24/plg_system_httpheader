@@ -289,7 +289,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 		{
 			$headerAndClient = explode('#', $headerAndClient);
-			$newHtaccessBuffer .= '    Header always set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
+			$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
 		}
 
 		$newHtaccessBuffer .= '</IfModule>' . PHP_EOL;
