@@ -27,7 +27,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 * @var    boolean
 	 * @since  1.0
 	 */
-	 protected $autoloadLanguage = true;
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Application object.
@@ -122,7 +122,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	public function onExtensionAfterSave($context, $table, $isNew)
 	{
 		// When the updated extension is not plg_system_httpheader we don't do anything
-		if ($table->element != $this->_name || $table->folder !=  $this->_type)
+		if ($table->element != $this->_name || $table->folder != $this->_type)
 		{
 			return;
 		}
@@ -178,7 +178,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 	/**
 	 * Return the server config file constant
-	 * 
+	 *
 	 * @return  string  Constante pointing to the correct server config file or none
 	 *
 	 * @since   1.0.6
@@ -202,8 +202,8 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 	/**
 	 * Return the path to the server config file we check
-	 * 
-	 * @param  string  $file  Constante pointing to the correct server config file or none
+	 *
+	 * @param   string   $file  Constante pointing to the correct server config file or none
 	 *
 	 * @return  string  Expected path to the requested file; Or false on error
 	 *
@@ -216,9 +216,9 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 	/**
 	 * Return the static Header Configuration based on the server config file
-	 * 
-	 * @param   string  Constant holding the server configuration file
-	 * 
+	 *
+	 * @param   string  $serverConfigFile  Constant holding the server configuration file
+	 *
 	 * @return  string  Buffer style text of the Header Configuration based on the server config file
 	 *
 	 * @since   1.0.6
@@ -240,7 +240,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 	/**
 	 * Return the static Header Configuration based in the .htaccess format
-	 * 
+	 *
 	 * @return  string  Buffer style text of the Header Configuration based on the server config file; empty string on error
 	 *
 	 * @since   1.0.6
@@ -302,7 +302,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 	/**
 	 * Return the static Header Configuration based in the web.config format
-	 * 
+	 *
 	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file or false on error.
 	 *
 	 * @since   1.0.6
@@ -399,7 +399,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 						break;
 					}
 				}
-				
+
 				// The header wasn't found we need to create it
 				if (!$found)
 				{
@@ -428,7 +428,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 	/**
 	 * Wirte the static headers.
-	 * 
+	 *
 	 * @return  boolean  True on success; false on any error
 	 *
 	 * @since   1.0.6
@@ -456,7 +456,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 			if (is_readable($pathToWebConfig) && !empty($webConfigContent))
 			{
 				// Setup and than write the web.config write using DOMDocument
-				$webConfigDomDoc = new DOMDocument();
+				$webConfigDomDoc = new DOMDocument;
 				$webConfigDomDoc->formatOutput = true;
 				$webConfigDomDoc->preserveWhiteSpace = false;
 				$webConfigDomDoc->loadXML($webConfigContent);
@@ -470,7 +470,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	/**
 	 * Get the configured static headers.
 	 *
-	 * @param   Registry  An Registry Object containing the plugin parameters
+	 * @param   Registry  $pluginParams An Registry Object containing the plugin parameters
 	 *
 	 * @return  array  We return the array of static headers with its values.
 	 *
@@ -489,19 +489,19 @@ class PlgSystemHttpHeader extends CMSPlugin
 		// X-Frame-Options
 		if ($pluginParams->get('xframeoptions'))
 		{
-			$staticHeaderConfiguration['X-Frame-Options' . '#both'] = 'SAMEORIGIN';
+			$staticHeaderConfiguration['X-Frame-Options#both'] = 'SAMEORIGIN';
 		}
 
 		// X-XSS-Protection
 		if ($pluginParams->get('xxssprotection'))
 		{
-			$staticHeaderConfiguration['X-XSS-Protection' . '#both'] = '1; mode=block';
+			$staticHeaderConfiguration['X-XSS-Protection#both'] = '1; mode=block';
 		}
 
 		// X-Content-Type-Options
 		if ($pluginParams->get('xcontenttypeoptions'))
 		{
-			$staticHeaderConfiguration['X-Content-Type-Options' . '#both'] = 'nosniff';
+			$staticHeaderConfiguration['X-Content-Type-Options#both'] = 'nosniff';
 		}
 
 		// Referrer-Policy
@@ -509,7 +509,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 		if ($referrerPolicy !== 'disabled')
 		{
-			$staticHeaderConfiguration['Referrer-Policy' . '#both'] = $referrerpolicy;
+			$staticHeaderConfiguration['Referrer-Policy#both'] = $referrerpolicy;
 		}
 
 		// Strict-Transport-Security
@@ -531,7 +531,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 				$hstsOptions[] = 'preload';
 			}
 
-			$staticHeaderConfiguration['Strict-Transport-Security' . '#both'] = implode('; ', $hstsOptions);
+			$staticHeaderConfiguration['Strict-Transport-Security#both'] = implode('; ', $hstsOptions);
 		}
 
 		$additionalHttpHeaders = $pluginParams->get('additional_httpheader', []);
