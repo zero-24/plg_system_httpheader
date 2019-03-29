@@ -2,18 +2,20 @@
 /**
  * HttpHeader Plugin
  *
- * @copyright  Copyright (C) 2017 - 2018 Tobias Zulauf All rights reserved.
+ * @copyright  Copyright (C) 2017 - 2019 Tobias Zulauf All rights reserved.
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License Version 2 or Later
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Installer\InstallerScript;
 
 /**
  * Installation class to perform additional changes during install/uninstall/update
  *
  * @since  1.0
  */
-class PlgSystemHttpHeaderInstallerScript extends JInstallerScript
+class PlgSystemHttpHeaderInstallerScript extends InstallerScript
 {
 	/**
 	 * Extension script constructor.
