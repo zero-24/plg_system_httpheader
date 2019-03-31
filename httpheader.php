@@ -509,7 +509,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 		if ($referrerPolicy !== 'disabled')
 		{
-			$staticHeaderConfiguration['Referrer-Policy#both'] = $referrerpolicy;
+			$staticHeaderConfiguration['Referrer-Policy#both'] = $referrerPolicy;
 		}
 
 		// Strict-Transport-Security
