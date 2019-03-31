@@ -171,7 +171,10 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 		// Show messge that everything was done
 		$this->app->enqueueMessage(
-			Text::_('PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_WRITTEN'),
+			Text::sprintf(
+				'PLG_SYSTEM_HTTPHEADER_MESSAGE_STATICHEADERS_WRITTEN',
+				$serverConfigFile
+			),
 			'message'
 		);
 	}
