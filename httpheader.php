@@ -211,7 +211,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	private function getServerConfigFilePath($file)
 	{
-		return JPATH_ROOT . '/' . self::SERVER_CONFIG_FILE_WEBCONFIG;
+		return JPATH_ROOT . '/' . $file;
 	}
 
 	/**
