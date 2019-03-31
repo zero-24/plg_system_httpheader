@@ -622,6 +622,6 @@ class PlgSystemHttpHeader extends CMSPlugin
 			return;
 		}
 
-		$this->app->setHeader($csp, implode(';', $newCspValues));
+		$this->app->setHeader($csp, implode('; ', $newCspValues));
 	}
 }
