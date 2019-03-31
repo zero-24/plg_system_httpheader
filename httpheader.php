@@ -186,13 +186,13 @@ class PlgSystemHttpHeader extends CMSPlugin
 	private function getServerConfigFile()
 	{
 		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS))
-			&& strpos('apache', strtolower($_SERVER['SERVER_SOFTWARE'])))
+			&& substr(strtolower($_SERVER['SERVER_SOFTWARE']), 0, 6) === 'apache')
 		{
 			return self::SERVER_CONFIG_FILE_HTACCESS;
 		}
 
-		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG))
-			&& strpos('microsoft', strtolower($_SERVER['SERVER_SOFTWARE'])))
+		// We are not on an apache so lets just check whether the web.config file exits
+		if (file_exists($this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG)))
 		{
 			return self::SERVER_CONFIG_FILE_WEBCONFIG;
 		}
