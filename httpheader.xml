@@ -11,7 +11,6 @@
 	<scriptfile>script.php</scriptfile>
 	<files>
 		<folder>language</folder>
-		<folder>subform</folder>
 		<filename plugin="httpheader">httpheader.php</filename>
 	</files>
 	<updateservers>
@@ -88,9 +87,35 @@
 					type="subform"
 					label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER"
 					description="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_DESC"
-					formsource="plugins/system/httpheader/subform/customhttpheaders.xml"
 					multiple="true"
-				/>
+				>
+					<form>
+						<field
+							name="key"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_KEY"
+							class="span4"
+						/>
+						<field
+							name="value"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADER_ADDITIONAL_HEADER_VALUE"
+							class="span10"
+						/>
+						<field
+							name="client"
+							type="radio"
+							label="PLG_SYSTEM_HTTPHEADER_HEADER_CLIENT"
+							default="site"
+							class="span12"
+							validate="options"
+							>
+							<option value="site">JSITE</option>
+							<option value="administrator">JADMINISTRATOR</option>
+							<option value="both">PLG_SYSTEM_HTTPHEADER_HEADER_CLIENT_BOTH</option>
+						</field>
+					</form>
+				</field>
 			</fieldset>
 			<fieldset name="hsts">
 				<field
@@ -167,11 +192,36 @@
 					name="contentsecuritypolicy_values"
 					type="subform"
 					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES"
-					formsource="plugins/system/httpheader/subform/cspkeyvalue.xml"
 					multiple="true"
 					min="1"
 					showon="contentsecuritypolicy:1"
-				/>
+				>
+					<form>
+						<field
+							name="directive"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES_DIRECTIVE"
+							class="span4"
+						/>
+						<field
+							name="value"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_VALUES_VALUE"
+							class="span10"
+						/>
+						<field
+							name="client"
+							type="radio"
+							label="PLG_SYSTEM_HTTPHEADER_HEADER_CLIENT"
+							default="site"
+							class="span12"
+							>
+							<option value="site">JSITE</option>
+							<option value="administrator">JADMINISTRATOR</option>
+							<option value="both">PLG_SYSTEM_HTTPHEADER_HEADER_CLIENT_BOTH</option>
+						</field>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

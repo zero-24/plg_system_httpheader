@@ -30,6 +30,12 @@ class PlgSystemHttpHeaderInstallerScript extends InstallerScript
 
 		$this->deleteFiles = array(
 			'/plugins/system/httpheader/subform/keyvalue.xml',
+			'/plugins/system/httpheader/subform/cspkeyvalue.xml',
+			'/plugins/system/httpheader/subform/customhttpheaders.xml',
+		);
+
+		$this->deleteFolder = array(
+			'/plugins/system/httpheader/subform/',
 		);
 	}
 
