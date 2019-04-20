@@ -1,5 +1,7 @@
 # HttpHeader Plugin
 
+This Joomla Plugin implements an UI Layer for the HTTP Security headers so everyone can set and configure them from the backend.
+
 ## Features
 
 This Joomla Plugin helps you to set the following HTTP Security Headers.
