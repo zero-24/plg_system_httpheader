@@ -78,7 +78,9 @@ This option activates 'Strict Transport Security' and allows the configuration o
 
 HSTS means that your domain can no longer be called without HTTPS. Once added to the preload list, this is **not easy to undo**. Domains can be removed, but it takes months for users to make a change with a browser update. This option is very important to prevent ['man-in-the-middle attacks'](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), so it should be activated in any case, but only if you are sure that HTTPS is fully supported for the domain and all subdomains in the long run! The value for 'maximum registration time' must be set to 63072000 (2 years) for recording.
 
-#### 
+#### Content Security Policy (CSP)
+
+With this option the `Content-Security-Policy` rule can be set individually including an dedicated subform for the the different directives as well as setting the rules in `Report-Only` mode.
 
 ## Translations
 
