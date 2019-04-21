@@ -206,7 +206,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	/**
 	 * Return the path to the server config file we check
 	 *
-	 * @param   string   $file  Constante pointing to the correct server config file or none
+	 * @param   string  $file  Constante pointing to the correct server config file or none
 	 *
 	 * @return  string  Expected path to the requested file; Or false on error
 	 *
@@ -487,7 +487,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	/**
 	 * Get the configured static headers.
 	 *
-	 * @param   Registry  $pluginParams An Registry Object containing the plugin parameters
+	 * @param   Registry  $pluginParams  An Registry Object containing the plugin parameters
 	 *
 	 * @return  array  We return the array of static headers with its values.
 	 *
