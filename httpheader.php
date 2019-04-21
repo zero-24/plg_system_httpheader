@@ -351,11 +351,16 @@ class PlgSystemHttpHeader extends CMSPlugin
 			foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 			{
 				$headerAndClient = explode('#', $headerAndClient);
-				$newHeader       = $webConfigDomDoc->createElement('add');
 
-				$newHeader->setAttribute('name', $headerAndClient[0]);
-				$newHeader->setAttribute('value', $value);
-				$newCustomHeaders->appendChild($newHeader);
+				// Make sure csp headers are not added to the server config file as they could include non static elements
+				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+				{
+					$newHeader = $webConfigDomDoc->createElement('add');
+
+					$newHeader->setAttribute('name', $headerAndClient[0]);
+					$newHeader->setAttribute('value', $value);
+					$newCustomHeaders->appendChild($newHeader);
+				}
 			}
 
 			$newHttpProtocol->appendChild($newCustomHeaders);
