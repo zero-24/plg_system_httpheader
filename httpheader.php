@@ -292,7 +292,12 @@ class PlgSystemHttpHeader extends CMSPlugin
 		foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 		{
 			$headerAndClient = explode('#', $headerAndClient);
-			$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
+
+			// Make sure csp headers are not added to the server config file as they could include non static elements
+			if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+			{
+				$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
+			}
 		}
 
 		$newHtaccessBuffer .= '</IfModule>' . PHP_EOL;
@@ -364,11 +369,16 @@ class PlgSystemHttpHeader extends CMSPlugin
 			foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 			{
 				$headerAndClient = explode('#', $headerAndClient);
-				$newHeader       = $webConfigDomDoc->createElement('add');
 
-				$newHeader->setAttribute('name', $headerAndClient[0]);
-				$newHeader->setAttribute('value', $value);
-				$newCustomHeaders->appendChild($newHeader);
+				// Make sure csp headers are not added to the server config file as they could include non static elements
+				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+				{
+					$newHeader = $webConfigDomDoc->createElement('add');
+
+					$newHeader->setAttribute('name', $headerAndClient[0]);
+					$newHeader->setAttribute('value', $value);
+					$newCustomHeaders->appendChild($newHeader);
+				}
 			}
 
 			$httpProtocol[0]->appendChild($newCustomHeaders);
@@ -406,13 +416,17 @@ class PlgSystemHttpHeader extends CMSPlugin
 				// The header wasn't found we need to create it
 				if (!$found)
 				{
-					// Generate the new header Element
-					$newHeader = $webConfigDomDoc->createElement('add');
-					$newHeader->setAttribute('name', $headerAndClient[0]);
-					$newHeader->setAttribute('value', $value);
+					// Make sure csp headers are not added to the server config file as they could include non static elements
+					if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+					{
+						// Generate the new header Element
+						$newHeader = $webConfigDomDoc->createElement('add');
+						$newHeader->setAttribute('name', $headerAndClient[0]);
+						$newHeader->setAttribute('value', $value);
 
-					// Append the new header
-					$customHeaders[0]->appendChild($newHeader);
+						// Append the new header
+						$customHeaders[0]->appendChild($newHeader);
+					}
 				}
 
 				$customHeadersValue = $oldCustomHeader->getAttribute('value');
