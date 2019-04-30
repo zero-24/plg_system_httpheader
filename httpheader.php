@@ -97,8 +97,10 @@ class PlgSystemHttpHeader extends CMSPlugin
 	public function onAfterInitialise()
 	{
 		// Set the default header when they are enabled
-		$this->setStaticHeaders();
-
+		if ((int) $this->params->get('write_static_headers', 0) == 0)
+		{ 
+			$this->setStaticHeaders();
+		}
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->params->get('contentsecuritypolicy', 0);
 
