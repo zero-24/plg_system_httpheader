@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Filesystem\File;
@@ -177,6 +178,74 @@ class PlgSystemHttpHeader extends CMSPlugin
 			),
 			'message'
 		);
+	}
+
+	/**
+	 * Lets make sure the csp hashes are added to the csp header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.7
+	 */
+	public function onAfterRender()
+	{
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$headData            = Factory::getDocument()->getHeadData();
+		$scriptHashes        = [];
+		$styleHashes         = [];
+
+		if ($scriptHashesEnabled)
+		{
+			// Generate the hashes for the script-src
+			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
+
+			foreach ($inlineScripts as $type => $scriptContent)
+			{
+				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+			}
+		}
+
+		if ($styleHashesEnabled)
+		{
+			// Generate the hashes for the style-src
+			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
+
+			foreach ($inlineStyles as $type => $styleContent)
+			{
+				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+			}
+		}
+
+		// Replace the hashes in the csp header when set.
+		$headers = $this->app->getHeaders();
+
+		foreach ($headers as $id => $headerConfiguration)
+		{
+			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
+				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
+			{
+				if (!empty($scriptHashes))
+				{
+					$newHeaderValue = str_replace('{script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
+				}
+				else
+				{
+					$newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
+				}
+
+				if (!empty($styleHashes))
+				{
+					$newHeaderValue = str_replace('{style-hashes}', ' ' . implode(' ', $styleHashes), $newHeaderValue);
+				}
+				else
+				{
+					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
+				}
+
+				$this->app->setHeader($headerConfiguration['name'], $newHeaderValue, true);
+			}
+		}
 	}
 
 	/**
@@ -621,12 +690,26 @@ class PlgSystemHttpHeader extends CMSPlugin
 		$csp          = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
 		$newCspValues = [];
 
+		$scriptHashesEnabled = (int) $this->params->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
+
 		foreach ($cspValues as $cspValue)
 		{
 			// Handle the client settings foreach header
 			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
 			{
 				continue;
+			}
+
+			// Append the script hashes placeholder
+			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			{
+				$cspValue->value .= ' {script-hashes}';
+			}
+			// Append the style hashes placeholder
+			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			{
+				$cspValue->value .= ' {style-hashes}';
 			}
 
 			// We can only use this if this is a valid entry
