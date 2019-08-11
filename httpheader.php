@@ -189,8 +189,10 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		return;
+		
+		$scriptHashesEnabled = (int) $this->params->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
 		$headData            = Factory::getDocument()->getHeadData();
 		$scriptHashes        = [];
 		$styleHashes         = [];
@@ -222,6 +224,8 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 		foreach ($headers as $id => $headerConfiguration)
 		{
+			$newHeaderValue = $headerConfiguration['value'];
+
 			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
 				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
 			{
@@ -717,12 +721,12 @@ class PlgSystemHttpHeader extends CMSPlugin
 			{
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
 			}
+		}
 
-			// Add the xframeoptions directive to the CSP too when enabled
-			if ($this->params->get('xframeoptions'))
-			{
-				$newCspValues[] = "frame-ancestors 'self'";
-			}
+		// Add the xframeoptions directive to the CSP too when enabled
+		if ($this->params->get('xframeoptions'))
+		{
+			$newCspValues[] = "frame-ancestors 'self'";
 		}
 
 		if (empty($newCspValues))

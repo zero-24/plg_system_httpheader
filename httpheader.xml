@@ -193,9 +193,9 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
 					description="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
-					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+					showon="contentsecuritypolicy:1"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -205,9 +205,9 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
 					description="PLG_SYSTEM_HTTPHEADER_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
-					showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+					showon="contentsecuritypolicy:1"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
