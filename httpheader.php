@@ -229,20 +229,20 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 				if (!empty($scriptHashes))
 				{
-					$newHeaderValue = str_replace(' {script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
+					$newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), $newHeaderValue);
 				}
 				else
 				{
-					$newHeaderValue = str_replace(' {script-hashes}', '', $newHeaderValue);
+					$newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
 				}
 
 				if (!empty($styleHashes))
 				{
-					$newHeaderValue = str_replace(' {style-hashes}', ' ' . implode(' ', $styleHashes), $newHeaderValue);
+					$newHeaderValue = str_replace('{style-hashes}', implode(' ', $styleHashes), $newHeaderValue);
 				}
 				else
 				{
-					$newHeaderValue = str_replace(' {style-hashes}', '', $newHeaderValue);
+					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
 				}
 
 				$this->app->setHeader($headerConfiguration['name'], $newHeaderValue, true);
