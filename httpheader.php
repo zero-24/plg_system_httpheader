@@ -189,8 +189,6 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		return;
-		
 		$scriptHashesEnabled = (int) $this->params->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
 		$headData            = Factory::getDocument()->getHeadData();
@@ -224,27 +222,27 @@ class PlgSystemHttpHeader extends CMSPlugin
 
 		foreach ($headers as $id => $headerConfiguration)
 		{
-			$newHeaderValue = $headerConfiguration['value'];
-
 			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
 				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
 			{
+				$newHeaderValue = $headerConfiguration['value'];
+
 				if (!empty($scriptHashes))
 				{
-					$newHeaderValue = str_replace('{script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
+					$newHeaderValue = str_replace(' {script-hashes}', ' ' . implode(' ', $scriptHashes), $newHeaderValue);
 				}
 				else
 				{
-					$newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
+					$newHeaderValue = str_replace(' {script-hashes}', '', $newHeaderValue);
 				}
 
 				if (!empty($styleHashes))
 				{
-					$newHeaderValue = str_replace('{style-hashes}', ' ' . implode(' ', $styleHashes), $newHeaderValue);
+					$newHeaderValue = str_replace(' {style-hashes}', ' ' . implode(' ', $styleHashes), $newHeaderValue);
 				}
 				else
 				{
-					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
+					$newHeaderValue = str_replace(' {style-hashes}', '', $newHeaderValue);
 				}
 
 				$this->app->setHeader($headerConfiguration['name'], $newHeaderValue, true);
