@@ -294,7 +294,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 			$headerAndClient = explode('#', $headerAndClient);
 
 			// Make sure csp headers are not added to the server config file as they could include non static elements
-			if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+			if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']) && $headerAndClient[1] === 'both')
 			{
 				$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
 			}
@@ -353,7 +353,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 				$headerAndClient = explode('#', $headerAndClient);
 
 				// Make sure csp headers are not added to the server config file as they could include non static elements
-				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']) && $headerAndClient[1] === 'both')
 				{
 					$newHeader = $webConfigDomDoc->createElement('add');
 
