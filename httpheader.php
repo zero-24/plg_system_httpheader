@@ -191,6 +191,12 @@ class PlgSystemHttpHeader extends CMSPlugin
 	{
 		$scriptHashesEnabled = (int) $this->params->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
+		
+		if (!method_exists(Factory::getDocument(), "getHeadData"))
+		{
+			return;
+		}
+		
 		$headData            = Factory::getDocument()->getHeadData();
 		$scriptHashes        = [];
 		$styleHashes         = [];
