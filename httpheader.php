@@ -100,17 +100,17 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
+		// CSP is only relevant on html pages. Let's early exit here.
+		if (Factory::getDocument()->getType() != 'html')
+		{
+			return;
+		}
+
 		$scriptHashesEnabled = (int) $this->params->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
 
 		// Early exit when both options are disabled
 		if (!$scriptHashesEnabled && !$styleHashesEnabled)
-		{
-			return;
-		}
-
-		// CSP is only relevant on html pages. Let's early exit here.
-		if (Factory::getDocument()->getType() != 'html')
 		{
 			return;
 		}
