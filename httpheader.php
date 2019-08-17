@@ -249,7 +249,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 	 */
 	private function setStaticHeaders()
 	{
-		$this->staticHeaderConfiguration = $this->getStaticHeaderConfiguration($this->params);
+		$this->staticHeaderConfiguration = $this->getStaticHeaderConfiguration();
 
 		if (empty($this->staticHeaderConfiguration))
 		{
