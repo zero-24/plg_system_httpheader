@@ -76,6 +76,12 @@ class PlgSystemHttpHeader extends CMSPlugin
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
 
+		// CSP is only relevant on html pages. Let's early exit here.
+		if (Factory::getDocument()->getType() != 'html')
+		{
+			return;
+		}
+
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->params->get('contentsecuritypolicy', 0);
 
@@ -96,7 +102,20 @@ class PlgSystemHttpHeader extends CMSPlugin
 	{
 		$scriptHashesEnabled = (int) $this->params->get('script_hashes_enabled', 0);
 		$styleHashesEnabled  = (int) $this->params->get('style_hashes_enabled', 0);
-		
+
+		// Early exit when both options are disabled
+		if (!$scriptHashesEnabled && !$styleHashesEnabled)
+		{
+			return;
+		}
+
+		// CSP is only relevant on html pages. Let's early exit here.
+		if (Factory::getDocument()->getType() != 'html')
+		{
+			return;
+		}
+
+		// Make sure the getHeadData method exists
 		if (!method_exists(Factory::getDocument(), 'getHeadData'))
 		{
 			return;
