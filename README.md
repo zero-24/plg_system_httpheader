@@ -55,13 +55,9 @@ You can allways choose to disable or change the value for one of those by changi
 
 ### Option descriptions
 
-#### Write headers to the configuration file
+#### Force HTTP Header
 
-When enabled the headers (excluding the Content-Security-Policy) will be added to the existing server configuration file as soon as you save the extension. This way the headers will be enforced from the server side and does not require Joomla to be triggerd. At this time we only support .htaccess (Apache) and web.config (IIS) files.
-
-#### Define additional HTTP Header
-
-Using this you can set different values from the default ones and also additional headers when it is supported. The supported headers are:
+Using this you can set different values from the default ones and also force headers. The supported headers are:
 - Strict-Transport-Security
 - Content-Security-Policy
 - Content-Security-Policy-Report-Only
@@ -111,7 +107,6 @@ This plugin has been included in the Joomla Core ([joomla/joomla-cms#18301](http
 
 ## Special Thanks
 
-David Jardin - @snipersister - https://www.djumla.de/
-Yves Hoppe - @yvesh - https://compojoom.com/
+David Jardin - @snipersister - https://www.djumla.de/ & Yves Hoppe - @yvesh - https://compojoom.com/
 
-For giving me the inspiration for the plugin and their feedback on the actual implementation. Thanks :+:
+For giving me the inspiration for the plugin and their feedback on the actual implementation. Thanks :+1:
