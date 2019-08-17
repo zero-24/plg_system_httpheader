@@ -5,7 +5,7 @@
 	<author>Tobias Zulauf</author>
 	<copyright>(C) 2017 - 2019 Tobias Zulauf All rights reserved.</copyright>
 	<authorUrl>https://www.jah-tz.de</authorUrl>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 	<license>GNU/GPL Version 2 or later</license>
 	<description>PLG_SYSTEM_HTTPHEADER_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
@@ -19,18 +19,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field
-					name="write_static_headers"
-					type="radio"
-					label="PLG_SYSTEM_HTTPHEADER_WRITE_STATIC_HEADERS"
-					description="PLG_SYSTEM_HTTPHEADER_WRITE_STATIC_HEADERS_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-				>
-					<option value="0">JDISABLED</option>
-					<option value="1">JENABLED</option>
-				</field>
-			
 				<field
 					name="xframeoptions"
 					type="radio"
@@ -109,7 +97,7 @@
 							default="site"
 							class="span12"
 							validate="options"
-							>
+						>
 							<option value="site">JSITE</option>
 							<option value="administrator">JADMINISTRATOR</option>
 							<option value="both">PLG_SYSTEM_HTTPHEADER_HEADER_CLIENT_BOTH</option>
