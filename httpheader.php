@@ -328,7 +328,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		}
 
 		// Add the xframeoptions directive to the CSP too when enabled
-		if ($this->params->get('xframeoptions'))
+		if ($this->params->get('xframeoptions', 1) || $this->params->get('frame_ancestors_self_enabled', 1))
 		{
 			$newCspValues[] = "frame-ancestors 'self'";
 		}
