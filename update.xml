@@ -1,17 +1,18 @@
 <?xml version="1.0" ?>
 <updates>
 	<update>
-		<name>HttpHeader 1.0.10</name>
+		<name>HttpHeader 1.0.11</name>
 		<description>HttpHeader Plugin</description>
 		<element>httpheader</element>
 		<type>plugin</type>
 		<folder>system</folder>
 		<client>site</client>
-		<version>1.0.10</version>
+		<version>1.0.11</version>
 		<infourl title="HttpHeader Plugin">https://github.com/zero-24/plg_system_httpheader</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_httpheader/releases/download/1.0.10/plg_system_httpheader.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_httpheader/releases/download/1.0.11/plg_system_httpheader.zip</downloadurl>
 		</downloads>
+		<sha512>9a3963c18a00b597618576e5ff325c7e93dcc2c933d0e741aa531f7dd2507065e3f945cc7f790571fac42ba193ba846bbd4e6ad1fdac2eacf2204ea5d396e3f7</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
