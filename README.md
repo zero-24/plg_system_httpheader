@@ -103,7 +103,7 @@ You have found an Issue or have an question / suggestion regarding the plugin, o
 
 ## Beyond this repo
 
-This plugin has been included in the Joomla Core ([joomla/joomla-cms#18301](https://github.com/joomla/joomla-cms/pull/18301)) and will be part of the upcomming 4.0 Release. Please note that the core the plugin has been renamed to plg_system_plg_system_httpheaders (extra `s`) and extended by the new com_csp component for to core distribution.
+This plugin has been included in the Joomla Core ([joomla/joomla-cms#18301](https://github.com/joomla/joomla-cms/pull/18301)) and will be part of the upcomming 4.0 Release. Please note that the core the plugin has been renamed to plg_system_httpheaders (extra `s`) and extended by the new com_csp component for to core distribution.
 
 ## Special Thanks
 
