@@ -120,3 +120,12 @@ This plugin has been included in the Joomla Core ([joomla/joomla-cms#18301](http
 David Jardin - @snipersister - https://www.djumla.de/ & Yves Hoppe - @yvesh - https://compojoom.com/
 
 For giving me the inspiration for the plugin and their feedback on the actual implementation. Thanks :+1:
+
+## Release steps
+
+- `build/build.sh`
+- `git commit -am 'prepare release HttpHeader 1.0.x'`
+- `git tag -s '1.0.x' -m 'HttpHeader 1.0.x'`
+- `git push origin --tags`
+- create the release on GitHub
+- `git push origin master`
