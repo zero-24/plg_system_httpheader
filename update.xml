@@ -12,7 +12,7 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_httpheader/releases/download/1.0.12/plg_system_httpheader.zip</downloadurl>
 		</downloads>
-		<sha512>a7cce92c0948d254680b1f5515e686d0718926aaccd78fa22837f22b451f6278bfd9d91dcb04423c1160370288d1215b84bc1964eab025d34cf022b36a4702bb</sha512>
+		<sha512>499aa7897a9640e5491d51375360d8267d659a6a4f3e5148bf7a06af7d57715aa9ac4c1ddadb2f197e0e9e230bcecd5be16ed6d0110a5962b43c3a0155ac4473</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -33,7 +33,7 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/zero-24/plg_system_httpheader/releases/download/1.0.12/plg_system_httpheader.zip</downloadurl>
 		</downloads>
-		<sha512>a7cce92c0948d254680b1f5515e686d0718926aaccd78fa22837f22b451f6278bfd9d91dcb04423c1160370288d1215b84bc1964eab025d34cf022b36a4702bb</sha512>
+		<sha512>499aa7897a9640e5491d51375360d8267d659a6a4f3e5148bf7a06af7d57715aa9ac4c1ddadb2f197e0e9e230bcecd5be16ed6d0110a5962b43c3a0155ac4473</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
