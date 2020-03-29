@@ -121,6 +121,10 @@ David Jardin - @snipersister - https://www.djumla.de/ & Yves Hoppe - @yvesh - ht
 
 For giving me the inspiration for the plugin and their feedback on the actual implementation. Thanks :+1:
 
+## Joomla! Extensions Directory (JED)
+
+This plugin can also been found in the Joomla! Extensions Directory: [HTTPHeader by zero24](https://extensions.joomla.org/extension/httpheader/)
+
 ## Release steps
 
 - `build/build.sh`
