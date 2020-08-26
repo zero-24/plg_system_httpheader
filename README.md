@@ -83,6 +83,7 @@ Using this you can set different values from the default ones and also force hea
 - Referrer-Policy
 - Expect-CT
 - Feature-Policy
+- Cross-Origin-Opener-Policy
 - Permissions-Policy
 
 Here you can also decide whether the header is applyed only to the frontend and or only the backed or both sites.

@@ -54,6 +54,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
+		'cross-origin-opener-policy',
 		'permissions-policy',
 	];
 
