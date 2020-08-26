@@ -54,6 +54,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
+		'permissions-policy',
 	];
 
 	/**
@@ -114,7 +115,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		{
 			return;
 		}
-		
+
 		$headData      = Factory::getDocument()->getHeadData();
 		$scriptHashes  = [];
 		$styleHashes   = [];
