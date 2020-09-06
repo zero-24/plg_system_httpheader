@@ -98,17 +98,6 @@ HSTS means that your domain can no longer be called without HTTPS. Once added to
 
 With this option the `Content-Security-Policy` rule can be set individually including an dedicated subform for the the different directives as well as setting the rules in `Report-Only` mode.
 
-## Translations
-
-This plugin is translated into the following languages:
-- de-DE by @zero-24
-- en-GB by @zero-24 & @brianteeman
-- fr-FR by @Sandra97 & @YGomiero
-- it-IT by @jeckodevelopment
-- nl-NL by @pe7er
-
-You want to contribute a translation for an additional language? Feel free to create an Pull Request against the master branch.
-
 ## Update Server
 
 Please note that my update server only supports the latest version running the latest version of Joomla and atleast PHP 7.0.
@@ -116,8 +105,19 @@ Any other plugin version I may have added to the download section don't get upda
 
 ## Issues / Pull Requests
 
-You have found an Issue or have an question / suggestion regarding the plugin, or do you want to propose code changes?
-[Open an issue in this repo](https://github.com/zero-24/plg_system_httpheader/issues/new) or submit a pull request with the proposed changes against the master branch.
+You have found an Issue, have a question or you would like to suggest changes regarding this extension?
+[Open an issue in this repo](https://github.com/zero-24/plg_system_httpheader/issues/new) or submit a pull request with the proposed changes.
+
+## Translations
+
+You want to translate this extension to your own language? Check out my [Crowdin Page for my Extensions](https://joomla.crowdin.com/zero-24) for more details. Feel free to [open an issue here](https://github.com/zero-24/plg_system_httpheader/issues/new) on any question that comes up.
+
+This plugin is translated into the following languages:
+- de-DE by @zero-24
+- en-GB by @zero-24 & @brianteeman
+- fr-FR by @Sandra97 & @YGomiero
+- it-IT by @jeckodevelopment
+- nl-NL by @pe7er
 
 ## Beyond this repo
 
@@ -141,3 +141,13 @@ This plugin can also been found in the Joomla! Extensions Directory: [HTTPHeader
 - `git push origin --tags`
 - create the release on GitHub
 - `git push origin master`
+
+## Crowdin
+
+### Upload new strings
+
+`crowdin upload sources`
+
+### Download translations
+
+`crowdin download --skip-untranslated-files --ignore-match`

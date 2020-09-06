@@ -1,0 +1,17 @@
+"project_id_env": "CROWDIN_ZERO24_PROJECT_ID"
+"api_token_env": "CROWDIN_ZERO24_PERSONAL_TOKEN"
+"base_path": "language/"
+"base_url": "https://joomla.crowdin.com"
+"preserve_hierarchy": true
+"files": [
+  {
+    "source": "/en-GB/en-GB.plg_system_httpheader.ini",
+    "translation": "/%locale%/%locale%.plg_system_httpheader.ini",
+    "update_option": "update_as_unapproved"
+  },
+  {
+    "source": "/en-GB/en-GB.plg_system_httpheader.sys.ini",
+    "translation": "/%locale%/%locale%.plg_system_httpheader.sys.ini",
+    "update_option": "update_as_unapproved"
+  }
+]
