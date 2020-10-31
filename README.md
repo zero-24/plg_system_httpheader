@@ -15,16 +15,16 @@ Thanks for your support!
 ## Features
 
 This Joomla Plugin helps you to set the following HTTP Security Headers.
-- Strict-Transport-Security
-- Content-Security-Policy
-- Content-Security-Policy-Report-Only
-- X-Frame-Options
-- X-XSS-Protection
-- X-Content-Type-Options
-- Referrer-Policy
-- Expect-CT
-- Feature-Policy
-- Permissions-Policy
+- [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+- [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+- [Content-Security-Policy-Report-Only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
+- [X-Frame-Options](https://developer.mozilla.org/de/docs/Web/HTTP/Headers/X-Frame-Options)
+- [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection)
+- [X-Content-Type-Options](https://developer.mozilla.org/de/docs/Web/HTTP/Headers/X-Content-Type-Options)
+- [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy)
+- [Expect-CT](https://developer.mozilla.org/de/docs/Web/HTTP/Headers/Expect-CT)
+- [Feature-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy)
+- [Permissions-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy)
 
 This plugin also comes with some easy defaults for:
 - X-Frame-Options
