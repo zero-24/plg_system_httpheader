@@ -31,7 +31,7 @@ In this Plugin you can disable the settings that cause double entries. Also chec
 
 ### Initial setup the plugin
 
-- [Download the latest version of the plugin](https://github.com/zero-24/plg_system_httpheader/releases/latest) 
+- [Download the latest version of the plugin](https://github.com/zero-24/plg_system_httpheader/releases/latest)
 - Install the plugin using `Upload & Install`
 - Enable the plugin `System - HttpHeader` form the plugin manager
 
@@ -125,6 +125,7 @@ This plugin can also been found in the Joomla! Extensions Directory: [HTTPHeader
 
 ## Release steps
 
+- Update the version within the XMLs
 - `build/build.sh`
 - `git commit -am 'prepare release HttpHeader 1.0.x'`
 - `git tag -s '1.0.x' -m 'HttpHeader 1.0.x'`

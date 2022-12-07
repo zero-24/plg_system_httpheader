@@ -5,7 +5,7 @@
 	<author>Tobias Zulauf</author>
 	<copyright>(C) 2017 - 2021 Tobias Zulauf All rights reserved.</copyright>
 	<authorUrl>https://www.jah-tz.de</authorUrl>
-	<version>1.0.16</version>
+	<version>1.0.17</version>
 	<license>GNU/GPL Version 2 or later</license>
 	<description>PLG_SYSTEM_HTTPHEADER_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
