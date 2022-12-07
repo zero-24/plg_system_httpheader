@@ -56,6 +56,8 @@ class PlgSystemHttpHeader extends CMSPlugin
 		'feature-policy',
 		'cross-origin-opener-policy',
 		'permissions-policy',
+		'report-to',
+		'nel',
 	];
 
 	/**
