@@ -61,6 +61,6 @@
 		<maintainer>Tobias Zulauf</maintainer>
 		<maintainerurl>https://www.jah-tz.de</maintainerurl>
 		<php_minimum>7.2.5</php_minimum>
-		<targetplatform name="joomla" version="5.[01]"/>
+		<targetplatform name="joomla" version="5.[0123]"/>
 	</update>
 </updates>
