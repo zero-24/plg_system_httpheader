@@ -31,14 +31,6 @@ class PlgSystemHttpHeader extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Application object.
-	 *
-	 * @var    CMSApplication
-	 * @since  1.0
-	 */
-	protected $app;
-
-	/**
 	 * The list of the suported HTTP headers
 	 *
 	 * @var    array
@@ -146,7 +138,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		}
 
 		// Replace the hashes in the csp header when set.
-		$headers = $this->app->getHeaders();
+		$headers = $this->getApplication()->getHeaders();
 
 		foreach ($headers as $id => $headerConfiguration)
 		{
@@ -173,7 +165,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
 				}
 
-				$this->app->setHeader($headerConfiguration['name'], $newHeaderValue, true);
+				$this->getApplication()->setHeader($headerConfiguration['name'], $newHeaderValue, true);
 			}
 		}
 	}
@@ -279,12 +271,12 @@ class PlgSystemHttpHeader extends CMSPlugin
 			$header = $headerAndClient[0];
 			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
 
-			if (!$this->app->isClient($client) && $client != 'both')
+			if (!$this->getApplication()->isClient($client) && $client != 'both')
 			{
 				continue;
 			}
 
-			$this->app->setHeader($header, $value, true);
+			$this->getApplication()->setHeader($header, $value, true);
 		}
 	}
 
@@ -308,7 +300,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		foreach ($cspValues as $cspValue)
 		{
 			// Handle the client settings foreach header
-			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			if (!$this->getApplication()->isClient($cspValue->client) && $cspValue->client != 'both')
 			{
 				continue;
 			}
@@ -342,6 +334,6 @@ class PlgSystemHttpHeader extends CMSPlugin
 			return;
 		}
 
-		$this->app->setHeader($csp, implode('; ', $newCspValues));
+		$this->getApplication()->setHeader($csp, implode('; ', $newCspValues));
 	}
 }
