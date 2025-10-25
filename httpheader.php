@@ -138,7 +138,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		}
 
 		// Replace the hashes in the csp header when set.
-		$headers = $this->getApplication()->getHeaders();
+		$headers = Factory::getApplication()->getHeaders();
 
 		foreach ($headers as $id => $headerConfiguration)
 		{
@@ -165,7 +165,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
 				}
 
-				$this->getApplication()->setHeader($headerConfiguration['name'], $newHeaderValue, true);
+				Factory::getApplication()->setHeader($headerConfiguration['name'], $newHeaderValue, true);
 			}
 		}
 	}
@@ -271,12 +271,12 @@ class PlgSystemHttpHeader extends CMSPlugin
 			$header = $headerAndClient[0];
 			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
 
-			if (!$this->getApplication()->isClient($client) && $client != 'both')
+			if (!Factory::getApplication()->isClient($client) && $client != 'both')
 			{
 				continue;
 			}
 
-			$this->getApplication()->setHeader($header, $value, true);
+			Factory::getApplication()->setHeader($header, $value, true);
 		}
 	}
 
@@ -300,7 +300,7 @@ class PlgSystemHttpHeader extends CMSPlugin
 		foreach ($cspValues as $cspValue)
 		{
 			// Handle the client settings foreach header
-			if (!$this->getApplication()->isClient($cspValue->client) && $cspValue->client != 'both')
+			if (!Factory::getApplication()->isClient($cspValue->client) && $cspValue->client != 'both')
 			{
 				continue;
 			}
@@ -334,6 +334,6 @@ class PlgSystemHttpHeader extends CMSPlugin
 			return;
 		}
 
-		$this->getApplication()->setHeader($csp, implode('; ', $newCspValues));
+		Factory::getApplication()->setHeader($csp, implode('; ', $newCspValues));
 	}
 }
